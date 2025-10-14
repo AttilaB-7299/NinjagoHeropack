@@ -71,14 +71,6 @@ function init(hero) {
 
         manager.incrementData(entity, "nin:dyn/blade", 8, entity.getData("fiskheroes:blade_timer"));
 
-        // if (entity.getData("fiskheroes:beam_charging") && entity.getData("nin:dyn/powerset") == 2) {
-        //     manager.setDataWithNotify(entity, "nin:dyn/spinning", true);
-        //     manager.setData(entity, 'fiskheroes:tentacle_lift', true);
-        // }
-        // if (!entity.getData("fiskheroes:beam_charging") || !entity.getData("nin:dyn/powerset") == 2) {
-        //     manager.setDataWithNotify(entity, "nin:dyn/spinning", false);
-        // }
-
         var value = entity.getData("nin:dyn/climb");
         if (entity.getData('fiskheroes:tentacle_lift')) {
             if (entity.motionY() > 0.05 || entity.isSneaking() && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air') {
@@ -161,12 +153,6 @@ function spinjitzuAttack(hero, entity, manager) {
             }
         }
     }
-    //manager.incrementData(entity, "nin:dyn/lightning_pulse_shooting_timer", 999, entity.getData("nin:dyn/lightning_pulse_timer") == 1, false);
-
-    /*if (entity.getData("nin:dyn/lightning_pulse_shooting_timer") == 1 || !entity.getData("nin:dyn/lightning_pulse")) {
-        manager.setInterpolatedData(entity, "nin:dyn/lightning_pulse_shooting_timer", 0);
-        manager.setDataWithNotify(entity, "nin:dyn/lightning_pulse", false);
-    }*/
 }
 function clawsProfile(profile) {
     profile.inheritDefaults();
@@ -303,7 +289,10 @@ function isKeyBindEnabled(entity, keyBind) {
             return entity.getData("nin:dyn/powerset") == 1 && entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken";
         case "SPINJITZU":        
             return entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken" && entity.getData("nin:dyn/powerset") == 1;
-         
+        case "Func_POWERSET_NEXT":
+            return !entity.isSneaking();
+        case "Func_POWERSET_PREV":
+            return entity.isSneaking();
         default:
             return true;    
        } 
