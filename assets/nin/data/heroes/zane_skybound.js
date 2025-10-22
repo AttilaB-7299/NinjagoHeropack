@@ -292,7 +292,7 @@ function isKeyBindEnabled(entity, keyBind) {
         case "TOSS":
             return entity.getData("nin:dyn/powerset") == 1 && entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken";
         case "SPINJITZU":        
-            return entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken" && entity.getData("nin:dyn/powerset") == 1;
+            return entity.getData("nin:dyn/powerset") == 2;
         default:
             return true;    
        } 
