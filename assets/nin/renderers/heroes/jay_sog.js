@@ -23,5 +23,5 @@ function pull(property) {
 }
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("jay/jay_0", "jay/jay_1", "jay/jay_2", "jay/jay_3");
+    renderer.setItemIcons("jay/jay_sog_0", "jay/jay_sog_1", "jay/jay_sog_2", "jay/jay_sog_3");
 }
