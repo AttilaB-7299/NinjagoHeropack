@@ -12,3 +12,7 @@ loadTextures({
 function isGolden(entity) {
     return true;
 }
+function init(renderer) {
+    parent.init(renderer);
+    renderer.setItemIcons("jay/jay_pilot_0", "jay/jay_pilot_1", "jay/jay_pilot_2", "jay/jay_pilot_3");
+}
