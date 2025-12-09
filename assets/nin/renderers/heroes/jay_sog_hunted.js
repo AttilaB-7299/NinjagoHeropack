@@ -15,5 +15,5 @@ function isGolden(entity) {
 }
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("jay/jay_0", "jay/jay_1", "jay/jay_2", "jay/jay_3");
+    renderer.setItemIcons("jay/jay_hunted_0", "jay/jay_hunted_1", "jay/jay_hunted_2", "jay/jay_hunted_3");
 }
