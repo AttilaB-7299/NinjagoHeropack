@@ -11,5 +11,5 @@ loadTextures({
 });
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("cole/cole_0", "cole/cole_1", "cole/cole_2", "cole/cole_3");
+    renderer.setItemIcons("cole/cole_sog_0", "cole/cole_sog_1", "cole/cole_sog_2", "cole/cole_sog_3");
 }
