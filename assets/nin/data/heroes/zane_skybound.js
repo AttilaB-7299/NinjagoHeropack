@@ -7,6 +7,7 @@ function spin(entity) {
 function init(hero) {
 
     hero.setName("Zane/Ninjago");
+    hero.setVersion("Skybound");
 
     hero.setTier(6);
 
