@@ -1,5 +1,5 @@
 function toss(entity) {
-    return entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken" && entity.getData("nin:dyn/powerset") == 1;
+    return entity.getHeldItem().nbt().getString("WeaponType") == "nin:soi" && entity.getData("nin:dyn/powerset") == 1;
 }
 function spin(entity) {
     return entity.getData("nin:dyn/powerset") == 2;
@@ -7,8 +7,8 @@ function spin(entity) {
 function init(hero) {
 
     hero.setName("Zane/Ninjago");
-    hero.setVersion("Basic");
-    hero.hide()
+    hero.setVersion("Pilot");
+
     hero.setTier(6);
 
     hero.setHelmet("Mask");
@@ -16,7 +16,7 @@ function init(hero) {
     hero.setLeggings("Leggings");
     hero.setBoots("Shoes");
 
-    hero.addPowers("nin:zane");
+    hero.addPowers("nin:zane_zx");
     hero.addAttribute("FALL_RESISTANCE", 6.0, 0);
     hero.addAttribute("JUMP_HEIGHT", 2.5, 0);
     hero.addAttribute("PUNCH_DAMAGE", 8.0, 0);
@@ -24,25 +24,22 @@ function init(hero) {
     hero.addAttribute("STEP_HEIGHT", 0.5, 0);
     hero.addAttribute("BASE_SPEED_LEVELS", 1.0, 0);
     hero.addAttribute("IMPACT_DAMAGE", 0.1, 1);
-    hero.addPrimaryEquipment("fisktag:weapon{WeaponType:nin:shuriken, AttributeModifiers:[{Operation:0,UUIDLeast:1,UUIDMost:1,Amount:40,AttributeName:generic.attackDamage,Name:Attack Damage}]}", true, item=> item.nbt().getString("WeaponType") == "nin:shuriken");
+    hero.addPrimaryEquipment("fisktag:weapon{WeaponType:nin:soi, AttributeModifiers:[{Operation:0,UUIDLeast:1,UUIDMost:1,Amount:40,AttributeName:generic.attackDamage,Name:Attack Damage}]}", true, item=> item.nbt().getString("WeaponType") == "nin:soi");
 
     hero.addKeyBindFunc("Func_POWERSET_NEXT", nextpowersetKey, "Next Powerset", 5)
     hero.addKeyBindFunc("Func_POWERSET_PREV", prevpowersetKey, "Prev Powerset", 5)
 
     //powerset1 = 1
     hero.addKeyBind("ENERGY_PROJECTION", "Ice Beam", 1);
-    hero.addKeyBind("BLADE", "Shurikens Of Ice", 2);
+    hero.addKeyBind("AIM", "Ice Blast", 2)
     hero.addKeyBind("CHARGE_ICE", "key.chargeIce", 3);
     hero.addKeyBindFunc("TOSS", shurikenKey, "Throw Shuriken", 4);
-    hero.addKeyBind("CHARGED_BEAM", "Throw Shuriken", 4);
-    // hero.addKeyBind("TOSS", "Throw Shuriken", 4)
-    // hero.addKeyBind("CHARGED_BEAM", "Spinjitzu", 4);
+    hero.addKeyBind("CHARGED_BEAM", "Throw Shuriken", 4)
     //powerset2 = 2
-    hero.addKeyBind("SUPER_SPEED", "Super Speed", 1);
+    hero.addKeyBind("SUPER_SPEED", "Super speed", 1);
     hero.addKeyBindFunc("SPEED", speedKey, "Super Speed", 1);
     hero.addKeyBind("STEEL_TRANSFORM", "Airjitzu", 2);
-    hero.addKeyBindFunc("SPINJITZU", spinjitzuKey, "Spinjitzu", 4);
-    // hero.addKeyBind("SPIN", "Spinjitzu", 4);
+    hero.addKeyBind("SPINJITZU", "Spinjitzu", 4);
     hero.addKeyBind("SLOW_MOTION", "Ninja Senses", 3);
 
 
@@ -51,6 +48,7 @@ function init(hero) {
     hero.setHasProperty(hasProperty);
     hero.setModifierEnabled(isModifierEnabled);
     hero.setKeyBindEnabled(isKeyBindEnabled);
+    hero.supplyFunction("canAim", canAim);
     hero.addAttributeProfile("CLAWS", clawsProfile);
     hero.addAttributeProfile("SNEAK", sneakProfile);
     hero.setAttributeProfile((entity) => {
@@ -76,69 +74,21 @@ function init(hero) {
         }
     });
     hero.setTickHandler((entity, manager) => {
-        spinvalue = entity.getData("nin:dyn/spin_timer");
-        startvalue = entity.getData("nin:dyn/spin_start_timer");
+        
         // shoot_timer = entity.getData("fiskheroes:beam_shooting_timer");
-        if (entity.getData("nin:dyn/spinning")) {
-            manager.setData(entity, "fiskheroes:speeding", true);
-            if (entity.getData("nin:dyn/spin_start_timer") < 2) {
-                manager.setData(entity, "nin:dyn/spin_start_timer", startvalue + 0.01);
-            }
-            if (entity.getData("nin:dyn/spin_start_timer") >= .27) {
-                manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.005);
-                manager.setData(entity, "nin:dyn/spinning_1", true);
-                manager.setData(entity, "fiskheroes:energy_projection", true);
-                // if (entity.getData("nin:dyn/spin_timer") > .25) {
-                //     manager.setData(entity, "fiskheroes:beam_shooting_timer", shoot_timer + 0.1);        
-                // }
-                if (entity.getData("nin:dyn/spin_timer") >= 2) {
-                    manager.setData(entity, "nin:dyn/spin_timer", (2 + (.5)));
-                }
-                else if (entity.getData("nin:dyn/spin_timer") > (2 + (.5))) {
-                    manager.setData(entity, "nin:dyn/spin_timer", (2 + (.5)));
-                }
-            }
-        }
-        else if (entity.getData("nin:dyn/spin_start_timer") < 0.20 && !entity.getData("nin:dyn/speedkey")) {
-            manager.setData(entity, "fiskheroes:speeding", false);
-            if (!entity.getData("fiskheroes:energy_projection")) {
-                manager.setData(entity, "fiskheroes:energy_projection", false);
-            }
-        }
-        else if (entity.getData("nin:dyn/spin_start_timer") < 0.20 && entity.getData("nin:dyn/speedkey")) {
-            manager.setData(entity, "fiskheroes:speeding", true);
-            if (!entity.getData("fiskheroes:energy_projection")) {
-                manager.setData(entity, "fiskheroes:energy_projection", false);
-            }
-        }
-        if (!entity.getData("nin:dyn/spinning")) {
-            manager.setData(entity, "nin:dyn/spin_start_timer", 0);
-            manager.setData(entity, "nin:dyn/spin_timer", 0);
-            manager.setData(entity, "nin:dyn/spinning_1", false);
-        }
+        spinjitzu1(entity, manager, hero);
 
-        // spinvalue = entity.getData("nin:dyn/spin_timer");
-        // startvalue = entity.getData("nin:dyn/spin_start_timer");
-        // if (entity.getData("fiskheroes:beam_charge")){
-        //     manager.setData(entity, "nin:dyn/spin_start_timer", startvalue + 0.1);
-        // }
-        // else if (entity.getData("fiskheroes:beam_charge") == 1) {
-        //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
-        // }
-        // else if (entity.getData("fiskheroes:beam_charge") == 0) {
-        //     manager.setData(entity, "nin:dyn/spin_timer", 0);
-        // }
-        // if (entity.getData("nin:dyn/spin_timer") > 2) {
-        //     manager.setData(entity, "nin:dyn/spin_timer", 2);
-        // }
         manager.incrementData(entity, "nin:dyn/blade", 8, entity.getData("fiskheroes:blade_timer"));
-
-        if (entity.getData("nin:dyn/spinjitzukey") && entity.getData("nin:dyn/powerset") == 2) {
-            // manager.setDataWithNotify(entity, "nin:dyn/spinning", true);
+        if(entity.getData("nin:dyn/isnt_default")){
+            manager.setData(entity, "nin:dyn/is_default", false);
+        }
+        if(entity.getData("nin:dyn/is_default")){
+            manager.setData(entity, "nin:dyn/isnt_default", false);
+        }
+        if (entity.getData("fiskheroes:beam_charging") && entity.getData("nin:dyn/powerset") == 2) {
             manager.setData(entity, 'fiskheroes:tentacle_lift', true);
         }
-        if (entity.getData("nin:dyn/powerset") != 2) {
-            manager.setDataWithNotify(entity, "nin:dyn/spinning", false);
+        if (!entity.getData("fiskheroes:beam_charging") || !entity.getData("nin:dyn/powerset") == 2) {
         }
         var value = entity.getData("nin:dyn/climb");
         if (entity.getData('fiskheroes:tentacle_lift')) {
@@ -164,22 +114,65 @@ function init(hero) {
         };
     });
 }
+function canAim(entity) {
+    return entity.exists();
+}
+function spinjitzu1(entity, manager, hero) {
+        spinvalue = entity.getData("nin:dyn/spin_timer");
+        startvalue = entity.getData("nin:dyn/spin_start_timer");
+        spinvalue = entity.getData("nin:dyn/spin_timer");
+        if (entity.getData("nin:dyn/spinning")) {
+            manager.setData(entity, "fiskheroes:speeding", true);
+            if (entity.getData("nin:dyn/spinning")) {
+                manager.setData(entity, "nin:dyn/spin_start_timer", startvalue + 0.1);
+            }
+            if (entity.getData("nin:dyn/spin_start_timer") > 0.75) {
+                manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
+                manager.setData(entity, "nin:dyn/spinning_1", true);
+                manager.setData(entity, "fiskheroes:energy_projection", true);
+
+                if (entity.getData("nin:dyn/spin_start_timer") >= 1.25) {
+                    manager.setData(entity, "nin:dyn/spin_start_timer", (1.25));
+                }
+                if (entity.getData("nin:dyn/spin_timer") >= 1){
+                    manager.setData(entity, "nin:dyn/spin_timer", (1));
+                }
+            }
+        }
+        else if (entity.getData("nin:dyn/spin_start_timer") < 0.20 && !entity.getData("nin:dyn/speedkey")) {
+            manager.setData(entity, "fiskheroes:speeding", false);
+            if (!entity.getData("fiskheroes:energy_projection")) {
+                manager.setData(entity, "fiskheroes:energy_projection", false);
+            }
+        }
+        else if (entity.getData("nin:dyn/spin_start_timer") < 0.20 && entity.getData("nin:dyn/speedkey")) {
+            manager.setData(entity, "fiskheroes:speeding", true);
+            if (!entity.getData("fiskheroes:energy_projection")) {
+                manager.setData(entity, "fiskheroes:energy_projection", false);
+            }
+        }
+        if (!entity.getData("nin:dyn/spinning")) {
+            manager.setData(entity, "nin:dyn/spin_start_timer", 0);
+            manager.setData(entity, "nin:dyn/spin_timer", 0);
+            manager.setData(entity, "nin:dyn/spinning_1", false);
+        }
+    }
 function spinjitzuAttack(hero, entity, manager) {
-    if (spin(entity) && entity.getData("nin:dyn/spin_timer") > 0) {
+    if (spin(entity) && entity.getData("nin:dyn/spinning_1") && entity.getHeldItem().nbt().getString("WeaponType") != "nin:soi") {
         var list = entity.world().getEntitiesInRangeOf(entity.pos(), 2.5);
         for (var i = 0; i < list.size(); ++i) {
             var other = list.get(i);
             if (other.isLivingEntity() && !entity.equals(other) && entity.world().isUnobstructed(entity.pos().add(0, 1, 0), other.pos().add(0, 1, 0))) {
-                other.hurtByAttacker(hero, "COLD", "%s was ripped to shreads by %s's spinjitzu", 1, entity);
+                other.hurtByAttacker(hero, "COLD", "%s was ripped to shreads by %s's spinjitzu", 5, entity);
             }
         }
     }
-    else if (spin(entity) && entity.getData("nin:dyn/spin_timer") > 0 && entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken") {
+    else if (spin(entity) && entity.getData("nin:dyn/spinning_1") && entity.getHeldItem().nbt().getString("WeaponType") == "nin:soi") {
         var list = entity.world().getEntitiesInRangeOf(entity.pos(), 2.5);
         for (var i = 0; i < list.size(); ++i) {
             var other = list.get(i);
             if (other.isLivingEntity() && !entity.equals(other) && entity.world().isUnobstructed(entity.pos().add(0, 1, 0), other.pos().add(0, 1, 0))) {
-                other.hurtByAttacker(hero, "COLD", "%s was turned into a popsicle by %s's spinjitzu", 3, entity);
+                other.hurtByAttacker(hero, "COLD", "%s was turned into a popsicle by %s's spinjitzu", 8, entity);
             }
         }
     }
@@ -214,6 +207,12 @@ function bladeProfile(profile) {
 }
 
     function isModifierEnabled(entity, modifier) {
+    var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
+    var leap = entity.getData("fiskheroes:energy_projection");
+    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var pitch = entity.rotPitch();
+    var syaw = entity.getData("nin:dyn/startedyaw");
+    var yaw = entity.rotYaw();
         var transformation = entity.getData("fiskheroes:dyn/steeled");
             switch(modifier.name()) {
                 case "fiskheroes:metal_skin":
@@ -225,22 +224,23 @@ function bladeProfile(profile) {
         }
     function isModifierEnabled(entity, modifier) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
-    var leap = entity.getData("nin:dyn/spinning_1") || entity.getData("nin:dyn/spinning");
+    var leap = entity.getData("nin:dyn/spinning");
+    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var pitch = entity.rotPitch();
+    var syaw = entity.getData("nin:dyn/startedyaw");
+    var yaw = entity.rotYaw();
+    var trans = entity.getData("fiskheroes:dyn/steeled");
         switch (modifier.name()) {
+        case "fiskheroes:frost_walking":
+            return entity.getData("nin:dyn/spinning_1");
+        case "fiskheroes:repulsor_blast":
+            return entity.getData("fiskheroes:aimed_timer") >= 1;
         case "fiskheroes:blade":
             return entity.getData("fiskheroes:cryo_charge") == 1 || entity.getData("fiskheroes:blade");
         case "fiskheroes:cryoball":
-            return entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("fiskheroes:energy_projection") && entity.getData("fiskheroes:cryo_charge") == 1;
+            return entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("fiskheroes:energy_projection") && entity.getData("fiskheroes:cryo_charge") == 1 && !entity.getData("fiskheroes:aimed_timer") >= 1;
         case "fiskheroes:icicles":
-            return entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("fiskheroes:energy_projection") && entity.getData("fiskheroes:cryo_charge") < 1;
-        // case "fiskheroes:charged_beam":
-        //     return entity.getData("nin:dyn/powerset") == 1 && entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken";
-        case "fiskheroes:flight":
-            return trans;
-        case "fiskheroes:leaping":
-            return leap;
-        case "fiskheroes:controlled_flight":
-            return entity.isInWater();
+            return entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("fiskheroes:energy_projection") && entity.getData("fiskheroes:cryo_charge") < 1 && !entity.getData("fiskheroes:aimed_timer") >= 1;
         case "fiskheroes:energy_projection":
             switch (modifier.id()) {
                 case "normal":
@@ -250,21 +250,26 @@ function bladeProfile(profile) {
                 case "backwards":
                     return entity.getData("nin:dyn/powerset") == 2 && modifier.id() == "backwards" == (Math.random() < 0.5);
             };
-        
-        // case "fiskheroes:tentacles":
-        //     if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' &&
-
-        //         entity.world().getBlock(entity.pos().add(0, YDif + 0, 1.5)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(0, YDif + 0, -2.0)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(2.0, YDif + 0, 0)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(-2.0, YDif + 0, 0)) == 'minecraft:air'
-
-        //             || entity.isInWater() || !entity.getData("fiskheroes:moving")) {
-        //         return false
-        //     };
+        case "fiskheroes:flight":
+            return trans;
+        case "fiskheroes:leaping":
+            return leap;
+        case "fiskheroes:controlled_flight":
+            return entity.isInWater();
+        case "fiskheroes:tentacles":
+            if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' &&
+    
+                entity.world().getBlock(entity.pos().add(0, YDif + 0, 1.5)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(0, YDif + 0, -2.0)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(2.0, YDif + 0, 0)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(-2.0, YDif + 0, 0)) == 'minecraft:air'
+    
+                    || entity.isInWater() || !entity.getData("fiskheroes:moving")) {
+                return false
+            };
         default:
             return true;
     
@@ -294,8 +299,8 @@ function isKeyBindEnabled(entity, keyBind) {
         //powerset 1
         case "ENERGY_PROJECTION":
             return (entity.getData("nin:dyn/powerset") == 1);
-        case "BLADE":
-            return (entity.getData("nin:dyn/powerset") == 1) && entity.getData("fiskheroes:cryo_charge") == 1 || (entity.getData("nin:dyn/powerset") == 1) && entity.getData("fiskheroes:blade");
+        case "AIM":
+            return (entity.getData("nin:dyn/powerset") == 1);
         case "CHARGE_ICE":
             return (entity.getData("nin:dyn/powerset") == 1);
     //powerset 2
@@ -308,9 +313,9 @@ function isKeyBindEnabled(entity, keyBind) {
         case "SPEED":
             return (entity.getData("nin:dyn/powerset") == 2);
         case "CHARGED_BEAM":
-            return entity.getData("nin:dyn/powerset") == 1 && entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken";
+            return entity.getData("nin:dyn/powerset") == 1 && (entity.getHeldItem().nbt().getString("WeaponType") == "nin:soi" || entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken");
         case "TOSS":
-            return entity.getData("nin:dyn/powerset") == 1 && entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken";
+            return entity.getData("nin:dyn/powerset") == 1 && (entity.getHeldItem().nbt().getString("WeaponType") == "nin:soi" || entity.getHeldItem().nbt().getString("WeaponType") == "nin:shuriken");
         case "SPINJITZU":
             return entity.getData("nin:dyn/powerset") == 2;
     //powerset cases
@@ -377,51 +382,20 @@ function StartClimb(entity, manager) {
     var syaw = entity.getData("nin:dyn/startedyaw");
     return true;
 }
-//shurikenKey
 function spinjitzuKey(entity, manager) {
-    // spinvalue = entity.getData("nin:dyn/spin_timer");
-    // startvalue = entity.getData("nin:dyn/spin_start_timer");
-    // manager.setData(entity, "nin:dyn/spin_start_timer", startvalue + 0.1);
-    // if (entity.getData("nin:dyn/spin_start_timer") >= 2) {
-    //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
-    //     if (entity.getData("nin:dyn/spin_timer") > .25) {
-    //         manager.setData(entity, "fiskheroes:energy_projection", true);        
-    //     }
+    // manager.setData(entity, "nin:dyn/shurikenkey", false);
+    // if (entity.getData("nin:dyn/spinjitzukey")) {
+    //     manager.setData(entity, "nin:dyn/spinjitzukey", false);
     // }
-    manager.setData(entity, "nin:dyn/shurikenkey", false);
-    if (entity.getData("nin:dyn/spinjitzukey")) {
-        manager.setData(entity, "nin:dyn/spinjitzukey", false);
-    }
-    else if (entity.getData("nin:dyn/spinjitzukey") == false) {
-        manager.setData(entity, "nin:dyn/spinjitzukey", true);
-    }
+    // else if (entity.getData("nin:dyn/spinjitzukey") == false) {
+    //     manager.setData(entity, "nin:dyn/spinjitzukey", true);
+    // }
     return true;
 }
 function shurikenKey(entity, manager) {
-    // spinvalue = entity.getData("nin:dyn/spin_timer");
-    // startvalue = entity.getData("nin:dyn/spin_start_timer");
-    // manager.setData(entity, "nin:dyn/spin_start_timer", startvalue + 0.1);
-    // if (entity.getData("nin:dyn/spin_start_timer") > 2) {
-    //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
-    //     if (entity.getData("nin:dyn/spin_timer") > .25) {
-    //         manager.setData(entity, "fiskheroes:energy_projection", true);        
-    //     }
-    // }
-    // manager.setData(entity, "fiskheroes:beam_charging", true);
-    // manager.setData(entity, "nin:dyn/shurikenkey", true);
-    // manager.setData(entity, "nin:dyn/spinjitzukey", false);
     return true;
 }
 function speedKey(entity, manager) {
-    // spinvalue = entity.getData("nin:dyn/spin_timer");
-    // startvalue = entity.getData("nin:dyn/spin_start_timer");
-    // manager.setData(entity, "nin:dyn/spin_start_timer", startvalue + 0.1);
-    // if (entity.getData("nin:dyn/spin_start_timer") >= 2) {
-    //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
-    //     if (entity.getData("nin:dyn/spin_timer") > .25) {
-    //         manager.setData(entity, "fiskheroes:energy_projection", true);        
-    //     }
-    // }
     if (entity.getData("nin:dyn/speedkey")) {
         manager.setData(entity, "nin:dyn/speedkey", false);
     }
