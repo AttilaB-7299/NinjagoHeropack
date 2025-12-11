@@ -163,7 +163,7 @@ function isKeyBindEnabled(entity, keyBind) {
                 && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air' 
 
 
-                || entity.isInWater() || pitch > 30/*|| entity.getData("nin:dyn/powerset") == 2*/) {
+                || entity.isInWater() || pitch > 30/*|| entity.getData("nin:dyn/powerset") == 2) {
                 return (false)
         }; 
         default:
