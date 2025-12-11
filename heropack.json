@@ -176,8 +176,9 @@
           "pilot": "Pilot Season 1"
         },
         "nin:kai_tournament": {
-          "skybound": "Skybound",
           "jungle": "Tornament Of Elements (Jungle)"
+        },
+        "nin:kai_skybound": {
         },
         "nin:wu": {
         },
