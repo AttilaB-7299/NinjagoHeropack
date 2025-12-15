@@ -193,45 +193,45 @@ function isModifierEnabled(entity, modifier) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
     switch (modifier.name()) {
-    case "fiskheroes:lightning_cast":
-        /*switch (modifier.id()) {
-            case "normal":
-                return !entity.getData("fiskheroes:blade");
-            case "blade":
-                return entity.getData("fiskheroes:blade");
-        };*/
-        return entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("nin:dyn/lightning_pulse_timer") == 1;
-    /*case "fiskheroes:energy_projection":
-        return entity.isSprinting();*/
-    case "fiskheroes:flight":
-        return trans;
-    case "fiskheroes:leaping":
-        return leap;
-    case "fiskheroes:controlled_flight":
-        return entity.isInWater();
-    case "fiskheroes:charged_beam":
-        switch (modifier.id()) {
-            case "normal":
-                return entity.getHeldItem().nbt().getString("WeaponType") != "nin:nol";
-            case "blade":
-                return entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol";
-        };
-    case "fiskheroes:tentacles":
-        if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' &&
+        case "fiskheroes:lightning_cast":
+            /*switch (modifier.id()) {
+                case "normal":
+                    return !entity.getData("fiskheroes:blade");
+                case "blade":
+                    return entity.getData("fiskheroes:blade");
+            };*/
+            return entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("nin:dyn/lightning_pulse_timer") == 1;
+        /*case "fiskheroes:energy_projection":
+            return entity.isSprinting();*/
+        case "fiskheroes:flight":
+            return trans;
+        case "fiskheroes:leaping":
+            return leap;
+        case "fiskheroes:controlled_flight":
+            return entity.isInWater();
+        case "fiskheroes:charged_beam":
+            switch (modifier.id()) {
+                case "normal":
+                    return entity.getHeldItem().nbt().getString("WeaponType") != "nin:nol";
+                case "blade":
+                    return entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol";
+            };
+        case "fiskheroes:tentacles":
+            if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' &&
 
-            entity.world().getBlock(entity.pos().add(0, YDif + 0, 1.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif + 0, -2.0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(2.0, YDif + 0, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-2.0, YDif + 0, 0)) == 'minecraft:air'
+                entity.world().getBlock(entity.pos().add(0, YDif + 0, 1.5)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(0, YDif + 0, -2.0)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(2.0, YDif + 0, 0)) == 'minecraft:air'
+                    && entity.world().getBlock(entity.pos().add(-2.0, YDif + 0, 0)) == 'minecraft:air'
 
-                || entity.isInWater() || !entity.getData("fiskheroes:moving")) {
-            return false
-        };
-    default:
-        return true;
+                    || entity.isInWater() || !entity.getData("fiskheroes:moving")) {
+                return false
+            };
+        default:
+            return true;
 
     }
 }
