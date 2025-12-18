@@ -74,7 +74,7 @@ function initEffects(renderer) {
     earthspikesmodelg.bindAnimation("nin:earthspikesup").setData((entity, data) => {
         data.load(entity.getInterpolatedData("fiskheroes:beam_shooting_timer"));
     });
-		earthspikesmodel.texture.set("spikes");
+		earthspikesmodelg.texture.set("spikes");
 
 	earthspikesg = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
     earthspikesg.setOffset(0, 5, -70);
