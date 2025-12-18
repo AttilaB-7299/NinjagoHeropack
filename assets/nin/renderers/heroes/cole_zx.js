@@ -84,7 +84,7 @@ function initEffects(renderer) {
     earthspikesg.opacity = 0.9;
     earthspikesg.setScale(1.0)
 
-	spikesfirstpersong = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+	spikesfirstpersong = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodelg);
     spikesfirstpersong.setOffset(0, 0, 0);
     spikesfirstpersong.setRotation(0, 0.0, 0.0)
     spikesfirstpersong.anchor.set("body");
