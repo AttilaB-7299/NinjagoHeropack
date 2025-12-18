@@ -18,7 +18,9 @@ var overlay;
 var punch;
 var punch2;
 var utils = implement("fiskheroes:external/utils");
-
+function isGolden(entity) {
+    return false;
+}
 function invis(entity) {
     return (entity.getData("fiskheroes:energy_projection"));
 }
@@ -145,6 +147,81 @@ function initEffects(renderer) {
         scythe_normal_back.opacity = 0.9;
         scythe_normal_back.setScale(0.71)
 
+        scytheoldg = renderer.createEffect("fiskheroes:model");
+    scytheoldg.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
+    scytheoldg.setOffset(2, 5, -16);
+    scytheoldg.setRotation(0.0, 90.0, 90.0)
+    scytheoldg.anchor.set("rightArm");
+    scytheoldg.mirror = false;
+    scytheoldg.opacity = 0.9;
+    scytheoldg.setScale(1.25)
+
+    scytheoldfirstg = renderer.createEffect("fiskheroes:model");
+    scytheoldfirstg.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
+    scytheoldfirstg.setOffset(2, 5, -16);
+    scytheoldfirstg.setRotation(-90.0, -90.0, 0.0)
+    scytheoldfirstg.anchor.set("rightArm");
+    scytheoldfirstg.mirror = false;
+    scytheoldfirstg.opacity = 0.9;
+    scytheoldfirstg.setScale(1.25)
+
+    var earthspikesmodelg = renderer.createResource("MODEL", "nin:dirtspikes");
+    earthspikesmodelg.bindAnimation("nin:earthspikesup").setData((entity, data) => {
+        data.load(entity.getInterpolatedData("fiskheroes:beam_shooting_timer"));
+    });
+		earthspikesmodel.texture.set("spikes");
+
+	earthspikesg = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+    earthspikesg.setOffset(0, 5, -70);
+    earthspikesg.setRotation(0, 180.0, 0.0)
+    earthspikesg.anchor.set("rightArm");
+    earthspikesg.mirror = false;
+    earthspikesg.opacity = 0.9;
+    earthspikesg.setScale(1.0)
+
+	spikesfirstpersong = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+    spikesfirstpersong.setOffset(0, 0, 0);
+    spikesfirstpersong.setRotation(0, 0.0, 0.0)
+    spikesfirstpersong.anchor.set("body");
+    spikesfirstpersong.mirror = false;
+    spikesfirstpersong.opacity = 0.9;
+    spikesfirstpersong.setScale(1.0)
+
+    var coleplayermodel = renderer.createResource("MODEL", "nin:cole_model");
+    coleplayermodel.bindAnimation("nin:coleanimation").setData((entity, data) => {
+        data.load(entity.getData("fiskheroes:beam_charge"));
+    });
+        coleplayermodel.texture.set("layer1");
+
+	cole = renderer.createEffect("fiskheroes:model").setModel(coleplayermodel);
+    cole.setOffset(0, -2, 7);
+    cole.setRotation(0, 0.0, 0.0)
+    cole.anchor.set("head");
+    cole.mirror = false;
+    cole.opacity = 0.9;
+    cole.setScale(1.0)
+    // earthspikes.anchor.ignoreAnchor(true);	
+
+    scytheg = renderer.createEffect("fiskheroes:model");
+    scytheg.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
+    scytheg.setOffset(12/*side to side*/, 7/*closeness to hands*/, -2/* Height */);
+    scytheg.setRotation(180.0, 15.0, -90.0)
+    scytheg.anchor.set("rightArm");
+    scytheg.mirror = false;
+    scytheg.opacity = 0.9;
+    scytheg.setScale(1.25)
+
+    soq_backg = renderer.createEffect("fiskheroes:model");
+    soq_backg.setModel(utils.createModel(renderer, "nin:soq_back", null, "soq_back"));
+    soq_backg.setOffset(0.0, 0.0, 0.0);
+    soq_backg.setRotation(0.0, 0.0, 0.0)
+    soq_backg.anchor.set("body");
+    soq_backg.mirror = false
+    soq_backg.opacity = 0.9;
+    soq_backg.setScale(0.75)
+
+    
+
 }
 function getBlockInFront(entity) {
     var pos = entity.pos();
@@ -250,21 +327,46 @@ function render(entity, renderLayer, isFirstPersonArm) {
                 scytheold.render();
             }
         }
-        if (isFirstPersonArm) {
-            if (entity.getData("fiskheroes:blade")){
-                scytheold.render();
-            }
-        }
-            if (entity.getHeldItem().isEmpty() && !(invis(entity) || fly(entity))) {
-                scythe_normal_back.render();
-
-            } else {
-                if (entity.getHeldItem().isEmpty() && !(invis(entity) || fly(entity))) {
-                    soq_back.setOffset(2.0, -9.0, 2.5);
-                    soq_back.setRotation(0.0, 0.0, 0.0);
-                    soq_back.setScale(0.75);
-                    soq_back.render();
+        if (!isGolden(entity)) {
+            if (isFirstPersonArm) {
+                if (entity.getData("fiskheroes:blade")){
+                    scytheold.render();
                 }
             }
+                if (entity.getHeldItem().isEmpty() && !(invis(entity) || fly(entity))) {
+                    scythe_normal_back.render();
+
+                } else {
+                    if (entity.getHeldItem().isEmpty() && !(invis(entity) || fly(entity))) {
+                        soq_back.setOffset(2.0, -9.0, 2.5);
+                        soq_back.setRotation(0.0, 0.0, 0.0);
+                        soq_back.setScale(0.75);
+                        soq_back.render();
+                    }
+                }
+        } else if (isGolden(entity)) {
+            if (!isFirstPersonArm){
+                if (entity.getData("fiskheroes:blade") && !entity.getData("fiskheroes:moving") && !entity.getPunchTimerInterpolated()) {
+                    scytheg.render();
+                }
+                if (entity.getData("fiskheroes:blade") && entity.getData("fiskheroes:moving") || entity.getData("fiskheroes:blade") && entity.getPunchTimerInterpolated()){
+                    scytheoldg.render();
+                }
+            }
+            if (isFirstPersonArm) {
+                if (entity.getInterpolatedData("fiskheroes:beam_charge")){
+                    spikesfirstpersong.render();
+                }
+                if (entity.getData("fiskheroes:blade")){
+                    scytheoldg.render();
+                }
+            }
+            if (entity.getHeldItem().isEmpty() && (!invis(entity) && !fly(entity))) {
+                soq_backg.setOffset(2.0, -9.0, 2.5);
+                soq_backg.setRotation(0.0, 0.0, 0.0);
+                soq_backg.setScale(0.75);
+                soq_backg.render();
+            }
+        }
         
 }

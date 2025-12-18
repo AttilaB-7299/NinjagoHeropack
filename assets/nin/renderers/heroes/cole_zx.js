@@ -1,4 +1,4 @@
-extend("fiskheroes:hero_basic");
+extend("fiskheroes:cole_basic");
 loadTextures({
     "layer1": "nin:cole/cole_zx",
     "layer2": "nin:cole/cole_zx",
@@ -18,7 +18,9 @@ var overlay;
 var punch;
 var punch2;
 var utils = implement("fiskheroes:external/utils");
-
+function isGolden(entity) {
+    return true;
+}
 function invis(entity) {
     return (entity.getData("fiskheroes:energy_projection"));
 }
@@ -50,45 +52,45 @@ function init(renderer) {
 }
 
 function initEffects(renderer) {
-    scytheold = renderer.createEffect("fiskheroes:model");
-    scytheold.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
-    scytheold.setOffset(2, 5, -16);
-    scytheold.setRotation(0.0, 90.0, 90.0)
-    scytheold.anchor.set("rightArm");
-    scytheold.mirror = false;
-    scytheold.opacity = 0.9;
-    scytheold.setScale(1.25)
+    scytheoldg = renderer.createEffect("fiskheroes:model");
+    scytheoldg.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
+    scytheoldg.setOffset(2, 5, -16);
+    scytheoldg.setRotation(0.0, 90.0, 90.0)
+    scytheoldg.anchor.set("rightArm");
+    scytheoldg.mirror = false;
+    scytheoldg.opacity = 0.9;
+    scytheoldg.setScale(1.25)
 
-    scytheoldfirst = renderer.createEffect("fiskheroes:model");
-    scytheoldfirst.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
-    scytheoldfirst.setOffset(2, 5, -16);
-    scytheoldfirst.setRotation(-90.0, -90.0, 0.0)
-    scytheoldfirst.anchor.set("rightArm");
-    scytheoldfirst.mirror = false;
-    scytheoldfirst.opacity = 0.9;
-    scytheoldfirst.setScale(1.25)
+    scytheoldfirstg = renderer.createEffect("fiskheroes:model");
+    scytheoldfirstg.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
+    scytheoldfirstg.setOffset(2, 5, -16);
+    scytheoldfirstg.setRotation(-90.0, -90.0, 0.0)
+    scytheoldfirstg.anchor.set("rightArm");
+    scytheoldfirstg.mirror = false;
+    scytheoldfirstg.opacity = 0.9;
+    scytheoldfirstg.setScale(1.25)
 
-    var earthspikesmodel = renderer.createResource("MODEL", "nin:dirtspikes");
-    earthspikesmodel.bindAnimation("nin:earthspikesup").setData((entity, data) => {
+    var earthspikesmodelg = renderer.createResource("MODEL", "nin:dirtspikes");
+    earthspikesmodelg.bindAnimation("nin:earthspikesup").setData((entity, data) => {
         data.load(entity.getInterpolatedData("fiskheroes:beam_shooting_timer"));
     });
 		earthspikesmodel.texture.set("spikes");
 
-	earthspikes = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
-    earthspikes.setOffset(0, 5, -70);
-    earthspikes.setRotation(0, 180.0, 0.0)
-    earthspikes.anchor.set("rightArm");
-    earthspikes.mirror = false;
-    earthspikes.opacity = 0.9;
-    earthspikes.setScale(1.0)
+	earthspikesg = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+    earthspikesg.setOffset(0, 5, -70);
+    earthspikesg.setRotation(0, 180.0, 0.0)
+    earthspikesg.anchor.set("rightArm");
+    earthspikesg.mirror = false;
+    earthspikesg.opacity = 0.9;
+    earthspikesg.setScale(1.0)
 
-	spikesfirstperson = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
-    spikesfirstperson.setOffset(0, 0, 0);
-    spikesfirstperson.setRotation(0, 0.0, 0.0)
-    spikesfirstperson.anchor.set("body");
-    spikesfirstperson.mirror = false;
-    spikesfirstperson.opacity = 0.9;
-    spikesfirstperson.setScale(1.0)
+	spikesfirstpersong = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+    spikesfirstpersong.setOffset(0, 0, 0);
+    spikesfirstpersong.setRotation(0, 0.0, 0.0)
+    spikesfirstpersong.anchor.set("body");
+    spikesfirstpersong.mirror = false;
+    spikesfirstpersong.opacity = 0.9;
+    spikesfirstpersong.setScale(1.0)
 
     var coleplayermodel = renderer.createResource("MODEL", "nin:cole_model");
     coleplayermodel.bindAnimation("nin:coleanimation").setData((entity, data) => {
@@ -105,14 +107,14 @@ function initEffects(renderer) {
     cole.setScale(1.0)
     // earthspikes.anchor.ignoreAnchor(true);	
 
-    scythe = renderer.createEffect("fiskheroes:model");
-    scythe.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
-    scythe.setOffset(12/*side to side*/, 7/*closeness to hands*/, -2/* Height */);
-    scythe.setRotation(180.0, 15.0, -90.0)
-    scythe.anchor.set("rightArm");
-    scythe.mirror = false;
-    scythe.opacity = 0.9;
-    scythe.setScale(1.25)
+    scytheg = renderer.createEffect("fiskheroes:model");
+    scytheg.setModel(utils.createModel(renderer, "nin:scythe", null, "scythe"));
+    scytheg.setOffset(12/*side to side*/, 7/*closeness to hands*/, -2/* Height */);
+    scytheg.setRotation(180.0, 15.0, -90.0)
+    scytheg.anchor.set("rightArm");
+    scytheg.mirror = false;
+    scytheg.opacity = 0.9;
+    scytheg.setScale(1.25)
     
     spinjitzu = renderer.createEffect("fiskheroes:model");
     spinjitzu.setModel(utils.createModel(renderer, "nin:spinjitzu_zane", null, "spinjitzu"));
@@ -171,14 +173,14 @@ function initEffects(renderer) {
         utils.bindParticles(renderer, "nin:earthclone").setCondition(entity => invis(entity));
         utils.bindParticles(renderer, "nin:stone_hands").setCondition(entity => (entity.getInterpolatedData("fiskheroes:blade_timer") > 0 && entity.getInterpolatedData("fiskheroes:blade_timer") < 1));
         
-        soq_back = renderer.createEffect("fiskheroes:model");
-        soq_back.setModel(utils.createModel(renderer, "nin:soq_back", null, "soq_back"));
-        soq_back.setOffset(0.0, 0.0, 0.0);
-        soq_back.setRotation(0.0, 0.0, 0.0)
-        soq_back.anchor.set("body");
-        soq_back.mirror = false
-        soq_back.opacity = 0.9;
-        soq_back.setScale(0.75)
+        soq_backg = renderer.createEffect("fiskheroes:model");
+        soq_backg.setModel(utils.createModel(renderer, "nin:soq_back", null, "soq_back"));
+        soq_backg.setOffset(0.0, 0.0, 0.0);
+        soq_backg.setRotation(0.0, 0.0, 0.0)
+        soq_backg.anchor.set("body");
+        soq_backg.mirror = false
+        soq_backg.opacity = 0.9;
+        soq_backg.setScale(0.75)
 
 }
 function getBlockInFront(entity) {
@@ -241,9 +243,9 @@ function initAnimations(renderer) {
 
 function render(entity, renderLayer, isFirstPersonArm) {
     if (isFirstPersonArm) {
-        earthspikes.anchor.ignoreAnchor(true)
+        earthspikesg.anchor.ignoreAnchor(true)
         if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:soq") {
-            earthspikes.setOffset(0, -30, -70);
+            earthspikesg.setOffset(0, -30, -70);
         }
     }
     if (entity.isWearingFullSuit()) {
@@ -261,32 +263,33 @@ function render(entity, renderLayer, isFirstPersonArm) {
             var punch_timer = entity.getInterpolatedData('fiskheroes:energy_charge');
         
             // lightningsurgearms.progress = punch_timer;
+            // lightningsurgearms.opacity = 0.4;
             // lightningsurgearms.render();
             overlay.texture.set(null, "arms");
-            overlay.opacity = punch_timer;
+            overlay.opacity = punch_timer*0.2;
             overlay.render();
         }
         if (!isFirstPersonArm){
             if (entity.getData("fiskheroes:blade") && !entity.getData("fiskheroes:moving") && !entity.getPunchTimerInterpolated()) {
-                scythe.render();
+                scytheg.render();
             }
             if (entity.getData("fiskheroes:blade") && entity.getData("fiskheroes:moving") || entity.getData("fiskheroes:blade") && entity.getPunchTimerInterpolated()){
-                scytheold.render();
+                scytheoldg.render();
             }
         }
         if (isFirstPersonArm) {
             if (entity.getInterpolatedData("fiskheroes:beam_charge")){
-                spikesfirstperson.render();
+                spikesfirstpersong.render();
             }
             if (entity.getData("fiskheroes:blade")){
-                scytheold.render();
+                scytheoldg.render();
             }
         }
         if (entity.getHeldItem().isEmpty() && (!invis(entity) && !fly(entity))) {
-            soq_back.setOffset(2.0, -9.0, 2.5);
-            soq_back.setRotation(0.0, 0.0, 0.0);
-            soq_back.setScale(0.75);
-            soq_back.render();
+            soq_backg.setOffset(2.0, -9.0, 2.5);
+            soq_backg.setRotation(0.0, 0.0, 0.0);
+            soq_backg.setScale(0.75);
+            soq_backg.render();
         }
         // if (entity.getInterpolatedData("fiskheroes:beam_charge") > 0) {
         //     earthspikes.render();
