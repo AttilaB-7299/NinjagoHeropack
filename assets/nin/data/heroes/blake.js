@@ -9,7 +9,8 @@ function init(hero) {
     hero.setChestplate("Chestplate");
     hero.setLeggings("Leggings");
     hero.setBoots("boots");
-
+    hero.hide();
+    
     hero.addPowers("nin:blake", "nin:throw");
     hero.addAttribute("FALL_RESISTANCE", 100.0, 0);
     hero.addAttribute("JUMP_HEIGHT", 2, 0);
