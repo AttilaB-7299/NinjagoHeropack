@@ -9,6 +9,9 @@ loadTextures({
     // "airjitzu":"nin:cole/airjitzucole",
     "soq_back": "nin:cole/soq_texture"
 });
+function isGolden(entity) {
+    return false;
+}
 function init(renderer) {
     parent.init(renderer);
     renderer.setItemIcons("cole/cole_sog_0", "cole/cole_sog_1", "cole/cole_sog_2", "cole/cole_sog_3");

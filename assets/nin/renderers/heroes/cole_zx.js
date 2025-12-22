@@ -1,4 +1,4 @@
-extend("fiskheroes:cole_basic");
+extend("fiskheroes:hero_basic");
 loadTextures({
     "layer1": "nin:cole/cole_zx",
     "layer2": "nin:cole/cole_zx",
@@ -76,7 +76,7 @@ function initEffects(renderer) {
     });
 		earthspikesmodelg.texture.set("spikes");
 
-	earthspikesg = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+	earthspikesg = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodelg);
     earthspikesg.setOffset(0, 5, -70);
     earthspikesg.setRotation(0, 180.0, 0.0)
     earthspikesg.anchor.set("rightArm");

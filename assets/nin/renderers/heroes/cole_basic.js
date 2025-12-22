@@ -8,6 +8,7 @@ loadTextures({
     "spinjitzu": "nin:cole/spinjitzu_cole",
     "airjitzu":"nin:cole/airjitzucole",
     "soq_back": "nin:cole/soq_texture",
+    "spikes": "nin:cole/dirttexture",
     "scythe_normal": "nin:cole/scythe_normal",
     "arms": "nin:cole/cole_arms",
 });
@@ -179,7 +180,7 @@ function initEffects(renderer) {
     earthspikesg.opacity = 0.9;
     earthspikesg.setScale(1.0)
 
-	spikesfirstpersong = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodel);
+	spikesfirstpersong = renderer.createEffect("fiskheroes:model").setModel(earthspikesmodelg);
     spikesfirstpersong.setOffset(0, 0, 0);
     spikesfirstpersong.setRotation(0, 0.0, 0.0)
     spikesfirstpersong.anchor.set("body");
@@ -284,6 +285,9 @@ function initAnimations(renderer) {
     .setData((entity, data) => {data.load(0, entity.getData("nin:dyn/climb_bool"))})
     .setCondition(entity => (getBlockInFront(entity) != 'minecraft:air') && entity.getData("nin:dyn/climb_bool"));
 
+    addAnimation(renderer, "cole.EARTHSPIKES", "nin:scytheplayer").setData((entity, data) =>
+        data.load(Math.min(Math.max(entity.getInterpolatedData("fiskheroes:beam_charge") / 1, 0), 1)));
+
     addAnimation(renderer, "cole.SCYTHE", "nin:scythe").setData((entity, data, isFirstPersonArm) => 
         data.load(Math.max(entity.getData("fiskheroes:blade") && !entity.getPunchTimerInterpolated() && !entity.getData("fiskheroes:moving"))));
     addAnimationWithData(renderer, "cole.SCYTHEMOVING", "nin:stick", "nin:dyn/blade").setData((entity, data) => (entity.getData("fiskheroes:moving") && !entity.getPunchTimerInterpolated()));
@@ -359,6 +363,10 @@ function render(entity, renderLayer, isFirstPersonArm) {
                 }
                 if (entity.getData("fiskheroes:blade")){
                     scytheoldg.render();
+                }
+                earthspikesg.anchor.ignoreAnchor(true)
+                if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:soq") {
+                    earthspikesg.setOffset(0, -30, -70);
                 }
             }
             if (entity.getHeldItem().isEmpty() && (!invis(entity) && !fly(entity))) {
