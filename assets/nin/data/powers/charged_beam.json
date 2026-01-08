@@ -23,7 +23,7 @@
           "BEAM_AMBIENT": "nin:zap"
         }
       },
-      "fiskheroes:charged_beam|stun": {
+      "fiskheroes:charged_beam|blade": {
         "damageProfile": {
           "damage": 17.0,
           "types": {
