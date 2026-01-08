@@ -9,5 +9,5 @@ loadTextures({
     "airjitzu":"nin:kai/airjitzukai"
 });
 function isBasic(entity) {
-    return true;
+    return false;
 }
