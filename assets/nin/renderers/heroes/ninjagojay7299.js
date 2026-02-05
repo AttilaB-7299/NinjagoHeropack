@@ -231,7 +231,7 @@ function render(entity, renderLayer, isFirstPersonArm) {
     if (entity.getData("nin:dyn/lightning_pulse_timer") == 1) {
         
     }
-    if (entity.getData("nin:dyn/god_timer") == 1 && !entity.getData("fiskheroes:energy_projection")) {
+    if (entity.getData("nin:dyn/goded") && !entity.getData("fiskheroes:energy_projection")) {
         godlay.render();
     }
     /*if (entity.getData("nin:dyn/god_timer") < 1 && entity.getData("nin:dyn/god_timer") > 0) {

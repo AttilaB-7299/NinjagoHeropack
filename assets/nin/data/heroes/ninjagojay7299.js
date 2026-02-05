@@ -38,7 +38,8 @@ function init(hero) {
     hero.addKeyBind("CHARGED_BEAM", "Lightning Beam", 1);
     hero.addKeyBind("CHARGE_ENERGY", "Lightning Throw", 2);
     hero.addKeyBind("BLADE", "Nunchucks Of Lightning", 3);
-    hero.addKeyBind("GOD_MODE", "God Of Lightning", 4)
+    hero.addKeyBindFunc("Func_GOD_MODE", godmodekey, "God Of Lightning", 4)
+    // hero.addKeyBind("GOD_MODE", "God Of Lightning", 4)
 
     //powerset2 = 2
     hero.addKeyBind("SUPER_SPEED", "Super speed", 1);
@@ -78,7 +79,11 @@ function init(hero) {
         //lightningPulse(hero, entity, manager);
 
         manager.incrementData(entity, "nin:dyn/blade", 8, entity.getData("fiskheroes:blade_timer"));
-        
+        // godtimer = entity.getData("nin:dyn/god_timer")
+        // if (entity.getData("nin:dyn/goded")) {
+        //     manager.setData(entity, "nin:god_timer", godtimer + 1)
+        // }
+
         if (!entity.getData("fiskheroes:shield") || entity.getData("nin:dyn/goded") || entity.isOnGround()) {
             manager.setData(entity, "nin:dyn/aired", false);
         };
@@ -187,8 +192,6 @@ function isModifierEnabled(entity, modifier) {
         switch (modifier.id()) {
             case "god":
                 return !trans;
-            case "air":
-                return !god;
         }
     /*case "fiskheroes:transformation":
         switch (modifier.id()) {
@@ -234,6 +237,8 @@ function isKeyBindEnabled(entity, keyBind) {
         case "CHARGE_ENERGY":
             return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
         case "GOD_MODE":
+            return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
+        case "Func_GOD_MODE":
             return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
     //powerset 2
         case "SLOW_MOTION":
@@ -307,5 +312,16 @@ function nextpowersetKey(player, manager) {
     }
 
     manager.setDataWithNotify(player, "nin:dyn/powerset", 1);
+    return true;
+}
+function godmodekey(entity, manager) {
+    if (entity.getData("nin:dyn/god_timer") < 1) {
+      manager.setData(entity, "nin:dyn/god_timer", 1);
+      manager.setData(entity, "nin:dyn/goded", true);
+    }
+    if (entity.getData("nin:dyn/god_timer") >= 1) {
+      manager.setData(entity, "nin:dyn/god_timer", 0);
+      manager.setData(entity, "nin:dyn/goded", false);
+    }
     return true;
 }
