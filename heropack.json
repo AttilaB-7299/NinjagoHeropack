@@ -6,7 +6,7 @@
     "watermark": "nin",
     "sounds": {
       "download": {
-        "repository": "NinjagoJay7299/Ninjago",
+        "repository": "AttilaB-7299/Ninjago",
         "version": 0
       },
       "range": {
@@ -79,12 +79,12 @@
         "use": "BOOLEAN",
         "powers": "INTEGER",
         "toss": "BOOLEAN",
-        "spin": "BOOLEAN",        
+        "spin": "BOOLEAN",
         "firesword": "BOOLEAN",
         "blade": { "type" : "FLOAT_INTERP", "resetWithoutSuit": false, "resetOnDeath": true },
         "spinstaff": { "type" : "FLOAT_INTERP", "resetWithoutSuit": false, "resetOnDeath": true },
         "nonblade": { "type" : "FLOAT_INTERP", "resetWithoutSuit": false, "resetOnDeath": true },
-        
+
         "dragoned": "BOOLEAN",
         "dragon_timer": "FLOAT_INTERP",
         "dragon_cooldown": "FLOAT",
@@ -155,7 +155,7 @@
 
         "is_default": "BOOLEAN",
         "isnt_default": "BOOLEAN"
-        
+
       },
       "alts": {
         "nin:jay": {
