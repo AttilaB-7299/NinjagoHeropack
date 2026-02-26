@@ -236,6 +236,8 @@ function isKeyBindEnabled(entity, keyBind) {
             return (entity.getData("nin:dyn/powerset") == 2);
         case "ENERGY_PROJECTION":
             return (entity.getData("nin:dyn/powerset") == 2);
+        case "SPINJITZU":
+            return (entity.getData("nin:dyn/powerset") == 2);
         case "STEEL_TRANSFORM":
             return (entity.getData("nin:dyn/powerset") == 2);
         case "SUPER_SPEED":
