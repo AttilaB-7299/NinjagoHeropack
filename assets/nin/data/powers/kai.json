@@ -107,22 +107,6 @@
           "ENABLE": "nin:airjitzu"
         }
       },
-      "fiskheroes:tentacles": {
-        "tentacles": [
-          [0.7, 0, 0.4],
-          [-0.7, 0, 0.4]
-        ],
-        "climbing": {
-          "speed": 0.25,
-          "range": 1,
-          "tolerance": 2,
-          "minAnchorPoints": 1,
-          "anchorPointZones": [
-            ["FRONT", "FRONT", "FRONT"],
-            ["FRONT", "FRONT", "FRONT"]
-          ]
-        }
-      },
       "fiskheroes:charged_beam": {
         "damageProfile": {
           "damage": 18.0,
@@ -195,17 +179,6 @@
           "recovery": 1.0
         }
       },
-      "fiskheroes:transformation|fall": {
-        "key": "TENTACLES",
-        "transformation": {
-          "toggleData": "nin:dyn/fall_immunity_active",
-          "timerData": "nin:dyn/fall_damage_immunity",
-          "time": 8
-        },
-        "soundEvents": {
-          "ENABLE": "nin:airjitzu"
-        }
-      },
       "fiskheroes:cooldown|fall": {
         "cooldown": {
           "toggleData": "nin:dyn/fall_immunity_active",
@@ -216,7 +189,7 @@
       },
     "fiskheroes:metal_skin": {}
     },
-  
+
     "hud": [
       {
         "type": "PROGRESS",
@@ -235,4 +208,3 @@
       }
     ]
   }
-  

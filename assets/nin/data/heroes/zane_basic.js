@@ -46,7 +46,7 @@ function init(hero) {
     hero.addKeyBind("SLOW_MOTION", "Ninja Senses", 3);
 
 
-    
+
 
     hero.setHasProperty(hasProperty);
     hero.setModifierEnabled(isModifierEnabled);
@@ -89,7 +89,7 @@ function init(hero) {
                 manager.setData(entity, "nin:dyn/spinning_1", true);
                 manager.setData(entity, "fiskheroes:energy_projection", true);
                 // if (entity.getData("nin:dyn/spin_timer") > .25) {
-                //     manager.setData(entity, "fiskheroes:beam_shooting_timer", shoot_timer + 0.1);        
+                //     manager.setData(entity, "fiskheroes:beam_shooting_timer", shoot_timer + 0.1);
                 // }
                 if (entity.getData("nin:dyn/spin_timer") >= 2) {
                     manager.setData(entity, "nin:dyn/spin_timer", (2 + (.5)));
@@ -133,29 +133,8 @@ function init(hero) {
         // }
         manager.incrementData(entity, "nin:dyn/blade", 8, entity.getData("fiskheroes:blade_timer"));
 
-        if (entity.getData("nin:dyn/spinjitzukey") && entity.getData("nin:dyn/powerset") == 2) {
-            // manager.setDataWithNotify(entity, "nin:dyn/spinning", true);
-            manager.setData(entity, 'fiskheroes:tentacle_lift', true);
-        }
         if (entity.getData("nin:dyn/powerset") != 2) {
             manager.setDataWithNotify(entity, "nin:dyn/spinning", false);
-        }
-        var value = entity.getData("nin:dyn/climb");
-        if (entity.getData('fiskheroes:tentacle_lift')) {
-            if (entity.motionY() > 0.05 || entity.isSneaking() && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air') {
-                manager.setData(entity, "nin:dyn/climb", value + 0.1);
-            }
-        } else if (!entity.getData('fiskheroes:tentacle_lift') && value != 0) {
-            manager.setData(entity, "nin:dyn/climb", 0);
-            manager.setData(entity, "nin:dyn/climb_bool", false);
-        }
-        if (entity.getData("fiskheroes:tentacles") == null && entity.getData('fiskheroes:tentacle_lift')) {
-            manager.setData(entity, "fiskheroes:tentacle_lift", false);
-        } else if (entity.getData("fiskheroes:tentacles") != null && !entity.getData('fiskheroes:tentacle_lift') || entity.getData("nin:dyn/spinning")) {
-            manager.setData(entity, "fiskheroes:tentacle_lift", true);
-        }
-        if (entity.getData("nin:dyn/climb") > 0) {
-            manager.setData(entity, "nin:dyn/fall_damage_immunity_cooldown", 1);
         }
         //manager.incrementData(entity, "nin:dyn/throw_timer", 30, entity.getData("fiskheroes:beam_shooting_timer"));
         spinjitzuAttack(hero, entity, manager);
@@ -250,31 +229,16 @@ function bladeProfile(profile) {
                 case "backwards":
                     return entity.getData("nin:dyn/powerset") == 2 && modifier.id() == "backwards" == (Math.random() < 0.5);
             };
-        
-        // case "fiskheroes:tentacles":
-        //     if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' &&
-
-        //         entity.world().getBlock(entity.pos().add(0, YDif + 0, 1.5)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(0, YDif + 0, -2.0)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(2.0, YDif + 0, 0)) == 'minecraft:air'
-        //             && entity.world().getBlock(entity.pos().add(-2.0, YDif + 0, 0)) == 'minecraft:air'
-
-        //             || entity.isInWater() || !entity.getData("fiskheroes:moving")) {
-        //         return false
-        //     };
         default:
             return true;
-    
+
         }
     }
-    
+
 function isKeyBindEnabled(entity, keyBind) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();
@@ -286,7 +250,7 @@ function isKeyBindEnabled(entity, keyBind) {
     entity.world().getBlock(entity.pos().add(0, YDif+0, 0.5)) == 'minecraft:air'
     && entity.world().getBlock(entity.pos().add(0, YDif+0, -0.5)) == 'minecraft:air'
     && entity.world().getBlock(entity.pos().add(0.5, YDif+0, 0)) == 'minecraft:air'
-    && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air' 
+    && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air'
 
 
     || entity.isInWater() || pitch > 30
@@ -318,25 +282,10 @@ function isKeyBindEnabled(entity, keyBind) {
         return !entity.isSneaking();
     case "Func_POWERSET_PREV":
                 return entity.isSneaking();
-        case "TENTACLES":   
-            if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' ||
-
-                entity.world().getBlock(entity.pos().add(0, YDif+0, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif+0, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif+0, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air' 
-
-
-                || entity.isInWater() || pitch > 30/*|| entity.getData("nin:dyn/powerset") == 2*/) {
-                return (false)
-        }; 
         default:
             return true;
         }
-    
+
 }
 
 function hasProperty(entity, property) {
@@ -385,7 +334,7 @@ function spinjitzuKey(entity, manager) {
     // if (entity.getData("nin:dyn/spin_start_timer") >= 2) {
     //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
     //     if (entity.getData("nin:dyn/spin_timer") > .25) {
-    //         manager.setData(entity, "fiskheroes:energy_projection", true);        
+    //         manager.setData(entity, "fiskheroes:energy_projection", true);
     //     }
     // }
     manager.setData(entity, "nin:dyn/shurikenkey", false);
@@ -404,7 +353,7 @@ function shurikenKey(entity, manager) {
     // if (entity.getData("nin:dyn/spin_start_timer") > 2) {
     //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
     //     if (entity.getData("nin:dyn/spin_timer") > .25) {
-    //         manager.setData(entity, "fiskheroes:energy_projection", true);        
+    //         manager.setData(entity, "fiskheroes:energy_projection", true);
     //     }
     // }
     // manager.setData(entity, "fiskheroes:beam_charging", true);
@@ -419,7 +368,7 @@ function speedKey(entity, manager) {
     // if (entity.getData("nin:dyn/spin_start_timer") >= 2) {
     //     manager.setData(entity, "nin:dyn/spin_timer", spinvalue + 0.1);
     //     if (entity.getData("nin:dyn/spin_timer") > .25) {
-    //         manager.setData(entity, "fiskheroes:energy_projection", true);        
+    //         manager.setData(entity, "fiskheroes:energy_projection", true);
     //     }
     // }
     if (entity.getData("nin:dyn/speedkey")) {

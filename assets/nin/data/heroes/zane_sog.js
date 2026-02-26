@@ -80,28 +80,6 @@ function init(hero) {
         if(entity.getData("nin:dyn/is_default")){
             manager.setData(entity, "nin:dyn/isnt_default", false);
         }
-        if (entity.getData("fiskheroes:beam_charging") && entity.getData("nin:dyn/powerset") == 2) {
-            manager.setData(entity, 'fiskheroes:tentacle_lift', true);
-        }
-        if (!entity.getData("fiskheroes:beam_charging") || !entity.getData("nin:dyn/powerset") == 2) {
-        }
-        var value = entity.getData("nin:dyn/climb");
-        if (entity.getData('fiskheroes:tentacle_lift')) {
-            if (entity.motionY() > 0.05 || entity.isSneaking() && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air') {
-                manager.setData(entity, "nin:dyn/climb", value + 0.1);
-            }
-        } else if (!entity.getData('fiskheroes:tentacle_lift') && value != 0) {
-            manager.setData(entity, "nin:dyn/climb", 0);
-            manager.setData(entity, "nin:dyn/climb_bool", false);
-        }
-        if (entity.getData("fiskheroes:tentacles") == null && entity.getData('fiskheroes:tentacle_lift')) {
-            manager.setData(entity, "fiskheroes:tentacle_lift", false);
-        } else if (entity.getData("fiskheroes:tentacles") != null && !entity.getData('fiskheroes:tentacle_lift') || entity.getData("nin:dyn/spinning")) {
-            manager.setData(entity, "fiskheroes:tentacle_lift", true);
-        }
-        if (entity.getData("nin:dyn/climb") > 0) {
-            manager.setData(entity, "nin:dyn/fall_damage_immunity_cooldown", 1);
-        }
         spinjitzuAttack(hero, entity, manager);
         if (entity.isInWater()) {
             manager.setData(entity, "fiskheroes:flying", true);
@@ -197,7 +175,7 @@ function bladeProfile(profile) {
 function isModifierEnabled(entity, modifier) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();
@@ -212,7 +190,7 @@ function isModifierEnabled(entity, modifier) {
 function isModifierEnabled(entity, modifier) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("nin:dyn/spinning");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();
@@ -243,20 +221,6 @@ function isModifierEnabled(entity, modifier) {
             return leap;
         case "fiskheroes:controlled_flight":
             return entity.isInWater();
-        case "fiskheroes:tentacles":
-            if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' &&
-
-                entity.world().getBlock(entity.pos().add(0, YDif + 0, 1.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif + 0, -2.0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(2.0, YDif + 0, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-2.0, YDif + 0, 0)) == 'minecraft:air'
-
-                || entity.isInWater() || !entity.getData("fiskheroes:moving")) {
-                return false
-            };
         default:
             return true;
     }
@@ -265,7 +229,7 @@ function isModifierEnabled(entity, modifier) {
 function isKeyBindEnabled(entity, keyBind) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();
@@ -277,13 +241,13 @@ function isKeyBindEnabled(entity, keyBind) {
     entity.world().getBlock(entity.pos().add(0, YDif+0, 0.5)) == 'minecraft:air'
     && entity.world().getBlock(entity.pos().add(0, YDif+0, -0.5)) == 'minecraft:air'
     && entity.world().getBlock(entity.pos().add(0.5, YDif+0, 0)) == 'minecraft:air'
-    && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air' 
+    && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air'
 
     || entity.isInWater() || pitch > 30
     switch (keyBind) {
         //powerset 1
         case "SHAPE_SHIFT":
-            return (entity.getData("nin:dyn/powerset") == 2) && !entity.isSneaking(); 
+            return (entity.getData("nin:dyn/powerset") == 2) && !entity.isSneaking();
         case "SHAPE_SHIFT_RESET":
             return (entity.getData("nin:dyn/powerset") == 2) && entity.isSneaking();
         case "ENERGY_PROJECTION":
@@ -312,20 +276,6 @@ function isKeyBindEnabled(entity, keyBind) {
             return !entity.isSneaking();
         case "Func_POWERSET_PREV":
             return entity.isSneaking();
-        case "TENTACLES":   
-            if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' ||
-
-                entity.world().getBlock(entity.pos().add(0, YDif+0, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif+0, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif+0, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air' 
-
-                || entity.isInWater() || pitch > 30) {
-                return (false)
-            }; 
         default:
             return true;
     }

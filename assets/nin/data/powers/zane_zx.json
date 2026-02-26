@@ -17,41 +17,6 @@
             "SHOOT": ":"
           }
         },
-      "fiskheroes:transformation|fall": {
-        "key": "TENTACLES",
-        "transformation": {
-          "toggleData": "nin:dyn/fall_immunity_active",
-          "timerData": "nin:dyn/fall_damage_immunity",
-          "time": 8
-        },
-        "soundEvents": {
-          "ENABLE": "nin:airjitzu"
-        }
-      },
-      "fiskheroes:cooldown|fall": {
-        "cooldown": {
-          "toggleData": "nin:dyn/fall_immunity_active",
-          "cooldownData": "nin:dyn/fall_damage_immunity_cooldown",
-          "duration": 50,
-          "recovery": 1.0
-        }
-      },
-      "fiskheroes:tentacles": {
-        "tentacles": [
-          [0.7, 0, 0.4],
-          [-0.7, 0, 0.4]
-        ],
-        "climbing": {
-          "speed": 0.25,
-          "range": 1,
-          "tolerance": 2,
-          "minAnchorPoints": 1,
-          "anchorPointZones": [
-            ["FRONT", "FRONT", "FRONT"],
-            ["FRONT", "FRONT", "FRONT"]
-          ]
-        }
-      },
       "fiskheroes:energy_projection|normal": {
         "damageProfile": {
           "damage": 10.0,
@@ -98,7 +63,7 @@
             "HEAT_TRANSFER": 0,
             "ADD_KNOCKBACK": 1.8
           }
-          
+
         },
         "range": 2,
         "radius": 4.0,
@@ -311,8 +276,6 @@
           "texture": "fiskheroes:textures/gui/bars/steel_transformation.png",
           "data": "fiskheroes:dyn/steel_cooldown"
         }
-      
+
     ]
   }
-  
-  

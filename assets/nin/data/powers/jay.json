@@ -205,41 +205,6 @@
             "time": 2
           }
       },
-      "fiskheroes:transformation|fall": {
-        "key": "TENTACLES",
-        "transformation": {
-          "toggleData": "nin:dyn/fall_immunity_active",
-          "timerData": "nin:dyn/fall_damage_immunity",
-          "time": 8
-        },
-        "soundEvents": {
-          "ENABLE": "nin:airjitzu"
-        }
-      },
-      "fiskheroes:cooldown|fall": {
-        "cooldown": {
-          "toggleData": "nin:dyn/fall_immunity_active",
-          "cooldownData": "nin:dyn/fall_damage_immunity_cooldown",
-          "duration": 50,
-          "recovery": 1.0
-        }
-      },
-      "fiskheroes:tentacles": {
-        "tentacles": [
-          [0.7, 0, 0.4],
-          [-0.7, 0, 0.4]
-        ],
-        "climbing": {
-          "speed": 0.25,
-          "range": 1,
-          "tolerance": 2,
-          "minAnchorPoints": 1,
-          "anchorPointZones": [
-            ["FRONT", "FRONT", "FRONT"],
-            ["FRONT", "FRONT", "FRONT"]
-          ]
-        }
-      },
   "fiskheroes:metal_skin": {}
   },
   "hud": [
@@ -263,6 +228,6 @@
       "color": "0x0049FF",
       "data": "nin:dyn/lightning_pulse_timer"
     }
-    
+
   ]
 }
