@@ -20,7 +20,7 @@ function isBasic(entity) {
 }
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("kai/kai_0", "kai/kai_1", "kai/kai_2", "kai/kai_3");
+    renderer.setItemIcons("kai/kai_sog_0", "kai/kai_sog_1", "kai/kai_sog_2", "kai/kai_sog_3");
     renderer.setTexture((entity, renderLayer) => {
         if (invis(entity)) {
             return "null";

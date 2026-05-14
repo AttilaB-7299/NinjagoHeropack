@@ -10,7 +10,7 @@ loadTextures({
 });
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("kai/kai_0", "kai/kai_1", "kai/kai_2", "kai/kai_3");
+    renderer.setItemIcons("kai/kai_hunted_0", "kai/kai_hunted_1", "kai/hunted_2", "kai/hunted_3");
 }
 function isBasic(entity) {
     return true;
