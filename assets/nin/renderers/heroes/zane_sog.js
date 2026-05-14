@@ -29,7 +29,7 @@ function disguised(entity) {
 }
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("zane/zane_0", "zane/zane_1", "zane/zane_2", "zane/zane_3");renderer.setTexture((entity, renderLayer) => {
+    renderer.setItemIcons("zane/zane_sog_0", "zane/zane_sog_1", "zane/zane_sog_2", "zane/zane_sog_3");renderer.setTexture((entity, renderLayer) => {
         if (invis(entity)) {
             return "null";
         }
@@ -119,7 +119,7 @@ function initEffects(renderer, entity) {
 
     overlay = renderer.createEffect("fiskheroes:overlay");
 
-    
+
 
     utils.bindBeam(renderer, "fiskheroes:charged_beam", "nin:empty", "body", 0x000000, [{
                 "firstPerson": [0.0, 0.0, 0.0],
@@ -169,7 +169,7 @@ function initEffects(renderer, entity) {
     utils.bindBeam(renderer, "fiskheroes:repulsor_blast", "fiskheroes:repulsor_blast", "leftArm", 0x4CB5FF, [
         {       "firstPerson": [4.5, 3.75, -7.0],
                 "offset": [0.5, 8.0, 0.0],
-                "size": [1.5, 1.5] 
+                "size": [1.5, 1.5]
         }
     ]).setCondition(entity => entity.ticksExisted() % 10 >= 5 * Math.random());
 
@@ -180,7 +180,7 @@ function initEffects(renderer, entity) {
     renderer.bindProperty("fiskheroes:energy_bolt").color.set(0x00ACFF);
 
         // .setCondition(entity => entity.getData("fiskheroes:beam_charging"));
-    
+
     // else {
     //     renderer.bindProperty("fiskheroes:equipped_item").setItems([
     //         { "anchor": "body", "scale": 0.5, "offset": [2.75, 7.5, 3.0], "rotation": [35.0, 90.0, 0.0] },
@@ -206,7 +206,7 @@ function initAnimations(renderer) {
     addAnimation(renderer, "zane.SPINJITZU", "nin:spinjitzu_stance")
     .setData((entity, data) => {data.load(entity.getData("nin:dyn/spin_start_timer") * 1)})
     .setCondition(entity => (entity.getData("nin:dyn/powerset") == 2));
-    
+
     addAnimation(renderer, "zane.SPINJITZU_SPIN", "nin:spinjitzu_spinning")
     .setData((entity, data) => {data.load(entity.loop(12))})
     .setCondition(entity => (entity.getData("nin:dyn/powerset") == 2) && entity.getData("nin:dyn/spin_start_timer") >= 0.75);
@@ -216,7 +216,7 @@ function initAnimations(renderer) {
 	// addAnimation(renderer, "zane.DUAL_HIT", "nin:double_hit")
     // .setData((entity, data) => data.load(entity.getPunchTimerInterpolated()*entity.getInterpolatedData('fiskheroes:blade_timer')));
 
-    
+
 
     utils.addHoverAnimation(renderer, "zane.HOVER", "nin:swim").setCondition(entity => (entity.isInWater()))
     addAnimationWithData(renderer, "ninja.SPRINT",  "fiskheroes:speedster_sprint", "fiskheroes:moving").setCondition(entity => (entity.isSprinting() && !invis(entity)));
@@ -271,5 +271,5 @@ function render(entity, renderLayer, isFirstPersonArm) {
             // throwableshuriken.setOffset(1, Math.max(-1* (1 - (entity.getInterpolatedData('heat_vision_length') * 16))), 4);
             // throwableshuriken.setRotation(entity.loop(2) * 180, 0, 0)
         }
-    
+
 }

@@ -11,5 +11,5 @@ loadTextures({
 });
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("zane/zane_jungle_0", "zane/zane_jungle_1", "zane/zane_jungle_2", "zane/zane_jungle_3");
+    renderer.setItemIcons("zane/zane_pilot_0", "zane/zane_pilot_1", "zane/zane_pilot_2", "zane/zane_pilot_3");
 }

@@ -9,3 +9,10 @@ loadTextures({
     "spinjitzu": "nin:zane/spinjitzu_zane",
     "st": "nin:zane/shuriken_normal",
 });
+function init(renderer) {
+    parent.init(renderer);
+    renderer.setItemIcons("zane/zane_hunted_0", "zane/zane_hunted_1", "zane/zane_hunted_2", "zane/zane_hunted_3");
+}
+function isBasic(entity) {
+    return true;
+}
