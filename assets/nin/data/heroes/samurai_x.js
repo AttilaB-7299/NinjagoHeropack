@@ -9,7 +9,7 @@ function init(hero) {
     hero.setLeggings("Leggings");
     hero.setBoots("Shoes");
 
-    hero.setDefaultScale(8.0);
+    hero.setDefaultScale(4.0);
     hero.addPowers("nin:sam_x", "nin:throw");
     hero.addAttribute("FALL_RESISTANCE", 6.0, 0);
     hero.addAttribute("JUMP_HEIGHT", 2.5, 0);
@@ -19,11 +19,11 @@ function init(hero) {
     hero.addAttribute("BASE_SPEED_LEVELS", 1.0, 0);
     hero.addAttribute("IMPACT_DAMAGE", 0.1, 1);
 
-    
-    hero.addKeyBind("SHIELD", "Bo Staff", 1);  
+
+    hero.addKeyBind("SHIELD", "Bo Staff", 1);
     hero.addKeyBind("CHARGED_BEAM", "Dragon Breath", 1);
     hero.addKeyBind("SUPER_SPEED", "Super speed", 2);
-    hero.addKeyBind("ENERGY_PROJECTION", "Spinjitzu", 3); 
+    hero.addKeyBind("ENERGY_PROJECTION", "Spinjitzu", 3);
     hero.addKeyBind("DRAGON", "Summon Dragon", 3);
     hero.addKeyBind("SLOW_MOTION", "Ninja Senses", 4);
     hero.addKeyBind("BLADE", "Sacred Flute", 5);
@@ -60,7 +60,7 @@ function init(hero) {
         spinjitzuAttack(hero, entity, manager);
 
     });
-    
+
 }
 function spinjitzuAttack(hero, entity, manager) {
     if (entity.getData("fiskheroes:energy_projection")) {
@@ -80,7 +80,7 @@ function staffProfile(profile) {
 }
 function dragonProfile(profile) {
     profile.inheritDefaults();
-    profile.addAttribute("PUNCH_DAMAGE", 20.0, 0);    
+    profile.addAttribute("PUNCH_DAMAGE", 20.0, 0);
 }
 function getProfile(entity) {
     return entity.getData("fiskheroes:shield") ? "STAFF" : null;
@@ -92,7 +92,7 @@ function canAim(entity) {
 function isModifierEnabled(entity, modifier) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();
@@ -129,5 +129,5 @@ function isKeyBindEnabled(entity, keyBind) {
         default:
             return true;
         }
-    
+
 }

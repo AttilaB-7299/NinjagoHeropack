@@ -1,7 +1,7 @@
 {hitanimationsamx_time}={data}
 {hitanimationsamx_0}=curve animate2({hitanimationsamx_time},0.75,0,0.15,0.6)
 
-{R_arm_rotX}-=127.5'{hitanimationsamx_0}
+{R_arm_rotX}+=127.5'{hitanimationsamx_0}
 
 ; {lower_time}={data}
 ; {lower_0}=curve animate2({lower_time},20,0,1,19)

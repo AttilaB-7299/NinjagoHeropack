@@ -3,7 +3,7 @@ loadTextures({
     "layer1": "nin:samx/pixalskin",
     "layer2": "nin:samx/pixalskin",
     "mask": "nin:null",
-    "mech": "nin:samx/samxtemp",
+    "mech": "nin:samx/samurai_remapped_v5",
     "pixal": "nin:samx/pixalskin",
     // "staff": "nin:samx/staff",
     // "hat": "nin:samx/hat",
@@ -150,7 +150,7 @@ function initEffects(renderer) {
     // pixal_open.opacity = 0.9;
     // pixal_open.mirror = false
 
-    var samxmechmodel = utils.createModel(renderer,"nin:samxtemp_model", "mech");
+    var samxmechmodel = utils.createModel(renderer,"nin:samuraix", "mech");
     samxmechmodel.bindAnimation("nin:samxspin").setData((entity, data) => data.load(entity.getData("fiskheroes:energy_projection")));
     //samxmechmodel.bindAnimation("nin:samxhit1").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
 
@@ -216,6 +216,23 @@ function initEffects(renderer) {
     // samxbody.setScale(8.0)
     samxbody.mirror = false
 
+    // samxsuit = renderer.createEffect("fiskheroes:model");
+    // samxsuit.setModel(utils.createModel(renderer, "nin:samuraix", "mech"));
+    // samxsuit.setOffset(0.0, 14.9, 0.0);
+    // samxsuit.setRotation(0.0, 180.0, 0.0)
+    // samxsuit.anchor.set("body");
+    // samxsuit.setScale(0.4)
+    // samxsuit.mirror = false
+
+    var samxbodymodel = utils.createModel(renderer,"nin:samuraix", "mech");
+    samxbodymodel.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
+    samxbodymodel.bindAnimation("nin:samxblock").setData((entity, data) => data.load(entity.getData("fiskheroes:shield_blocking")));
+    samxsuit = renderer.createEffect("fiskheroes:model").setModel(samxbodymodel);
+    samxsuit.setOffset(0.0, 0.0, 0.0);
+    samxsuit.setRotation(0.0, 180.0, 0.0)
+    samxsuit.anchor.set("body");
+    // samxsuit.setScale(0.4)
+    samxsuit.mirror = false
 
     // frontleftlegwu = renderer.createEffect("fiskheroes:model");
     // frontleftlegwu.setModel(utils.createModel(renderer, "nin:frontleftlegwu", null, "dragon"));
@@ -337,7 +354,7 @@ function initEffects(renderer) {
 
         //utils.bindParticles(renderer, "nin:fire_hands").setCondition(entity => (entity.getInterpolatedData("fiskheroes:shield_timer") > 0 && entity.getInterpolatedData("fiskheroes:shield_timer") < 1));
         //utils.bindParticles(renderer, "nin:fire_hands").setCondition(entity => entity.getData("fiskheroes:shield") && (entity.getInterpolatedData("fiskheroes:shield_timer") > 0.5 && entity.getInterpolatedData("fiskheroes:shield_timer") < 1));
-    // var sprint = renderer.bindProperty("fiskheroes:trail");  
+    // var sprint = renderer.bindProperty("fiskheroes:trail");
     // sprint.setTrail(renderer.createResource("TRAIL", "nin:wu"));
     // sprint.setCondition(entity => invis(entity));
         renderer.bindProperty("fiskheroes:opacity").setOpacity((entity, renderLayer) => {
@@ -352,17 +369,18 @@ function initAnimations(renderer) {
 }
 
 function render(entity, renderLayer, isFirstPersonArm) {
-        if (entity.isWearingFullSuit() && !entity.getData("fiskheroes:energy_projection")) {
-            samxleftarm.render();
-            samxrightarm.render();
-            samxleftleg.render();
-            samxrightleg.render();
-            samxbody.render();
+        if (entity.isWearingFullSuit()) {
+            samxsuit.render();
+            // samxleftarm.render();
+            // samxrightarm.render();
+            // samxleftleg.render();
+            // samxrightleg.render();
+            // samxbody.render();
             //pixal.render();
         }
-        if (entity.isWearingFullSuit() && entity.getData("fiskheroes:energy_projection")) {
-            samxmech.render();
-            //pixal.render();
-        }
+        // if (entity.isWearingFullSuit() && entity.getData("fiskheroes:shield")) {
+        //     samxmech.render();
+        //     //pixal.render();
+        // }
 
 }
