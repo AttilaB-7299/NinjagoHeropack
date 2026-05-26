@@ -227,6 +227,7 @@ function initEffects(renderer) {
     var samxbodymodel = utils.createModel(renderer,"nin:samuraix", "mech");
     samxbodymodel.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
     samxbodymodel.bindAnimation("nin:samxblock").setData((entity, data) => data.load(entity.getData("fiskheroes:shield_blocking")));
+    samxbodymodel.bindAnimation("nin:samx_sneak").setData((entity, data) => data.load(entity.isSneaking()));
     samxsuit = renderer.createEffect("fiskheroes:model").setModel(samxbodymodel);
     samxsuit.setOffset(0.0, 0.0, 0.0);
     samxsuit.setRotation(0.0, 180.0, 0.0)
