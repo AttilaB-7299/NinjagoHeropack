@@ -227,7 +227,9 @@ function initEffects(renderer) {
     var samxbodymodel = utils.createModel(renderer,"nin:samuraix", "mech");
     samxbodymodel.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
     samxbodymodel.bindAnimation("nin:samxblock").setData((entity, data) => data.load(entity.getData("fiskheroes:shield_blocking")));
-    samxbodymodel.bindAnimation("nin:samx_sneak").setData((entity, data) => data.load(entity.isSneaking()));
+    samxbodymodel.bindAnimation("nin:samxlower").setData((entity, data) => data.load(entity.isSneaking()));
+    samxbodymodel.bindAnimation("nin:samxwalking").setData((entity, data) => data.load(entity.getData("fiskheroes:moving")));
+
     samxsuit = renderer.createEffect("fiskheroes:model").setModel(samxbodymodel);
     samxsuit.setOffset(0.0, 0.0, 0.0);
     samxsuit.setRotation(0.0, 180.0, 0.0)
@@ -370,7 +372,8 @@ function initAnimations(renderer) {
 }
 
 function render(entity, renderLayer, isFirstPersonArm) {
-        if (entity.isWearingFullSuit()) {
+        if (entity.isWearingFullSuit() && !entity.isSneaking()) {
+            samxsuit.anchor.ignoreAnchor(false);
             samxsuit.render();
             // samxleftarm.render();
             // samxrightarm.render();
@@ -379,9 +382,9 @@ function render(entity, renderLayer, isFirstPersonArm) {
             // samxbody.render();
             //pixal.render();
         }
-        // if (entity.isWearingFullSuit() && entity.getData("fiskheroes:shield")) {
-        //     samxmech.render();
-        //     //pixal.render();
-        // }
+        if (entity.isWearingFullSuit() && entity.isSneaking()) {
+            samxsuit.anchor.ignoreAnchor(true);
+            samxsuit.render();
+        }
 
 }

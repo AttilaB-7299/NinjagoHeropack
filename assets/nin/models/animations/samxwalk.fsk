@@ -1,0 +1,15 @@
+{walk_time}={data}
+{walk_0}=curve animate2({walk_time},0.75,0,0.25,0.5)
+{walk_1}=curve animate2({walk_time},0.75,0.25,0.5,0.25)
+
+{R_Leg_rotX}+=30'{walk_0}
+{R_Leg_rotX}+=-30'{walk_1}
+
+{L_leg_rotX}+=-30'{walk_0}
+{L_leg_rotX}+=30'{walk_1}
+
+{R_arm_rotX}+=-25'{walk_0}
+{R_arm_rotX}+=25'{walk_1}
+
+{L_Arm_rotX}+=25'{walk_0}
+{L_Arm_rotX}+=-30'{walk_1}
