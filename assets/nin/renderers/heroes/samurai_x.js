@@ -5,6 +5,7 @@ loadTextures({
     "mask": "nin:null",
     "mech": "nin:samx/samurai_remapped_v5",
     "pixal": "nin:samx/pixalskin",
+    "blue_glass": "nin:samx/blue_glass",
     // "staff": "nin:samx/staff",
     // "hat": "nin:samx/hat",
     "null": "nin:null",
@@ -134,201 +135,38 @@ function initEffects(renderer) {
     // leftwing.setRotation(0.0, 0.0, 0.0)
     // leftwing.opacity = 0.9;
     // leftwing.mirror = false
+    var pixalModel = utils.createModel(renderer,"nin:pixalmodel", "pixal");
+    // pixalModel.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
+    // pixalModel.bindAnimation("nin:samxblock").setData((entity, data) => data.load(entity.getData("fiskheroes:shield_blocking")));
+    // pixalModel.bindAnimation("nin:samxlower").setData((entity, data) => data.load(entity.isSneaking()));
+    // pixalModel.bindAnimation("nin:samxwalk").setData((entity, data) => data.load(entity.motionInterpolated() * 4));
+//blueglass
+    blueglass = renderer.createEffect("fiskheroes:model");
+    blueglass.setModel(utils.createModel(renderer, "nin:blueglass", "blue_glass"));
+    blueglass.setOffset(0.0, -18.0, 5.0);
+    blueglass.setRotation(0.0, 0.0, 0.0)
+    blueglass.anchor.set("head");
+    blueglass.opacity = 0.1;
 
-    pixal = renderer.createEffect("fiskheroes:model");
-    pixal.setModel(utils.createModel(renderer, "nin:pixal_model", "pixal"));
+    pixal = renderer.createEffect("fiskheroes:model").setModel(pixalModel);
     pixal.setOffset(0.0, 0.0, 0.0);
     pixal.setRotation(0.0, 0.0, 0.0)
     pixal.anchor.set("body");
+    pixal.setScale(.25);
     pixal.mirror = false
-
-    // pixal_open = renderer.createEffect("fiskheroes:model");
-    // pixal_open.setModel(utils.createModel(renderer, "nin:pixal_open", null, "dragon"));
-    // pixal_open.setOffset(0.0, 2.0, 0.0);
-    // pixal_open.setRotation(0.0, 0.0, 0.0)
-    // pixal_open.anchor.set("body");
-    // pixal_open.opacity = 0.9;
-    // pixal_open.mirror = false
-
-    var samxmechmodel = utils.createModel(renderer,"nin:samuraix", "mech");
-    samxmechmodel.bindAnimation("nin:samxspin").setData((entity, data) => data.load(entity.getData("fiskheroes:energy_projection")));
-    //samxmechmodel.bindAnimation("nin:samxhit1").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
-
-    samxmech = renderer.createEffect("fiskheroes:model").setModel(samxmechmodel);
-    // samxmech.setModel(utils.createModel(renderer, "nin:samx", "mech"));
-    samxmech.setOffset(0.0, 0.0, 0.0);
-    samxmech.setRotation(0.0, 0.0, 0.0)
-    samxmech.anchor.set("body");
-    samxmech.mirror = false
-
-    var particlesmodel = utils.createModel(renderer,"nin:spincubes", "cubes");
-    particlesmodel.bindAnimation("nin:samxspinp").setData((entity, data) => data.load(entity.getData("fiskheroes:energy_projection")));
-    //samxmechmodel.bindAnimation("nin:samxhit1").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
-
-    spinparticles = renderer.createEffect("fiskheroes:model").setModel(particlesmodel);
-    // samxmech.setModel(utils.createModel(renderer, "nin:samx", "mech"));
-    spinparticles.setOffset(0.0, 0.0, 0.0);
-    spinparticles.setRotation(0.0, 0.0, 0.0)
-    spinparticles.anchor.set("body");
-    spinparticles.mirror = false
-
-    samxleftarm = renderer.createEffect("fiskheroes:model");
-    samxleftarm.setModel(utils.createModel(renderer, "nin:samxleftarm", "mech"));
-    samxleftarm.setOffset(5.0, -3.0, 0.0);
-    samxleftarm.setRotation(0.0, 0.0, 0.0)
-    samxleftarm.anchor.set("leftArm");
-    // samxleftarm.setScale(8.0)
-    samxleftarm.mirror = false
-
-    var samxrightarmm = utils.createModel(renderer,"nin:r_arm", "mech");
-    //samxrightarmm.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
-    samxrightarmm.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
-    samxrightarm = renderer.createEffect("fiskheroes:model").setModel(samxrightarmm);
-    // samxrightarm = renderer.createEffect("fiskheroes:model");
-    // samxrightarm.setModel(utils.createModel(renderer, "nin:samxrightarm", "mech"));
-    samxrightarm.setOffset(-5.0, -3.0, 0.0);
-    samxrightarm.setRotation(0.0, 0.0, 0.0)
-    samxrightarm.anchor.set("rightArm");
-    // samxrightarm.setScale(8.0)
-    samxrightarm.mirror = false
-
-    samxleftleg = renderer.createEffect("fiskheroes:model");
-    samxleftleg.setModel(utils.createModel(renderer, "nin:samxleftleg", "mech"));
-    samxleftleg.setOffset(2.0, -10.5, 0.0);
-    samxleftleg.setRotation(0.0, 180.0, 0.0)
-    samxleftleg.anchor.set("leftLeg");
-    // samxleftleg.setScale(8.0)
-    samxleftleg.mirror = false
-
-    samxrightleg = renderer.createEffect("fiskheroes:model");
-    samxrightleg.setModel(utils.createModel(renderer, "nin:samxrightleg", "mech"));
-    samxrightleg.setOffset(-2.0, -10.5, 0.0);
-    samxrightleg.setRotation(0.0, 180.0, 0.0)
-    samxrightleg.anchor.set("rightLeg");
-    // samxrightleg.setScale(8.0)
-    samxrightleg.mirror = false
-
-    samxbody = renderer.createEffect("fiskheroes:model");
-    samxbody.setModel(utils.createModel(renderer, "nin:samxbody", "mech"));
-    samxbody.setOffset(0.0, 0.0, 0.0);
-    samxbody.setRotation(0.0, 180.0, 0.0)
-    samxbody.anchor.set("body");
-    // samxbody.setScale(8.0)
-    samxbody.mirror = false
-
-    // samxsuit = renderer.createEffect("fiskheroes:model");
-    // samxsuit.setModel(utils.createModel(renderer, "nin:samuraix", "mech"));
-    // samxsuit.setOffset(0.0, 14.9, 0.0);
-    // samxsuit.setRotation(0.0, 180.0, 0.0)
-    // samxsuit.anchor.set("body");
-    // samxsuit.setScale(0.4)
-    // samxsuit.mirror = false
 
     var samxbodymodel = utils.createModel(renderer,"nin:samuraix", "mech");
     samxbodymodel.bindAnimation("nin:samxhit").setData((entity, data) => data.load(entity.getPunchTimerInterpolated()));
     samxbodymodel.bindAnimation("nin:samxblock").setData((entity, data) => data.load(entity.getData("fiskheroes:shield_blocking")));
     samxbodymodel.bindAnimation("nin:samxlower").setData((entity, data) => data.load(entity.isSneaking()));
-    samxbodymodel.bindAnimation("nin:samxwalking").setData((entity, data) => data.load(entity.getData("fiskheroes:moving")));
+    samxbodymodel.bindAnimation("nin:samxwalk").setData((entity, data) => data.load(entity.getData("fiskheroes:moving")));
 
     samxsuit = renderer.createEffect("fiskheroes:model").setModel(samxbodymodel);
-    samxsuit.setOffset(0.0, 0.0, 0.0);
+    samxsuit.setOffset(0.0, 1.75, 0.0);
     samxsuit.setRotation(0.0, 180.0, 0.0)
     samxsuit.anchor.set("body");
     // samxsuit.setScale(0.4)
     samxsuit.mirror = false
-
-    // frontleftlegwu = renderer.createEffect("fiskheroes:model");
-    // frontleftlegwu.setModel(utils.createModel(renderer, "nin:frontleftlegwu", null, "dragon"));
-    // frontleftlegwu.setOffset(0.0, -10.0, 0.0);
-    // frontleftlegwu.setRotation(0.0, 0.0, 0.0)
-    // frontleftlegwu.anchor.set("leftLeg");
-    // frontleftlegwu.mirror = false
-
-    // frontrightlegwu = renderer.createEffect("fiskheroes:model");
-    // frontrightlegwu.setModel(utils.createModel(renderer, "nin:frontrightlegwu", null, "dragon"));
-    // frontrightlegwu.setOffset(0.0, -10.0, 0.0);
-    // frontrightlegwu.setRotation(0.0, 0.0, 0.0)
-    // frontrightlegwu.anchor.set("rightLeg");
-    // frontrightlegwu.mirror = false
-
-    // backrightlegwu = renderer.createEffect("fiskheroes:model");
-    // backrightlegwu.setModel(utils.createModel(renderer, "nin:backrightlegwu", null, "dragon"));
-    // backrightlegwu.setOffset(3.0, -10.0, 0.0);
-    // backrightlegwu.setRotation(0.0, 0.0, 0.0)
-    // backrightlegwu.anchor.set("leftLeg");
-    // backrightlegwu.mirror = false
-
-    // backleftlegwu = renderer.createEffect("fiskheroes:model");
-    // backleftlegwu.setModel(utils.createModel(renderer, "nin:backleftlegwu", null, "dragon"));
-    // backleftlegwu.setOffset(-3.0, -10.0, 0.0);
-    // backleftlegwu.setRotation(0.0, 0.0, 0.0)
-    // backleftlegwu.anchor.set("rightLeg");
-    // backleftlegwu.mirror = false
-
-    // staff = renderer.createEffect("fiskheroes:model");
-    // staff.setModel(utils.createModel(renderer, "nin:staff_short", "staff"));
-    // staff.setOffset(1.0, 10.0, 1.0);
-    // staff.setRotation(90.0, 0.0, 0.0)
-    // staff.anchor.set("rightArm");
-    // staff.mirror = false
-    // staff.opacity = 0.9;
-    // staff.setScale(0.75)
-
-    // staffshield = renderer.createEffect("fiskheroes:model");
-    // staffshield.setModel(utils.createModel(renderer, "nin:staffshield", "staff"));
-    // staffshield.setOffset(0.0, 14.0, 0.0);
-    // staffshield.setRotation(0.0, 0.0, 0.0)
-    // staffshield.anchor.set("rightArm");
-    // staffshield.mirror = false
-    // staffshield.opacity = 0.9;
-    // staffshield.setScale(0.5)
-
-    // flute = renderer.createEffect("fiskheroes:model");
-    // flute.setModel(utils.createModel(renderer, "nin:flute", "flute"));
-    // flute.setOffset(-2.0, 6.0, 0.0);
-    // flute.setRotation(0.0, -65.0, 0.0)
-    // flute.anchor.set("rightArm");
-    // flute.mirror = false
-    // flute.opacity = 0.9;
-    // flute.setScale(0.3)
-
-    // hat = renderer.createEffect("fiskheroes:model");
-    // hat.setModel(utils.createModel(renderer, "nin:hat_2", "hat"));
-    // hat.setOffset(2.0, -9.4, -3.0);
-    // hat.setRotation(0.0, 0.0, 0.0)
-    // hat.anchor.set("head");
-    // hat.mirror = false
-    // hat.opacity = 0.9;
-    // hat.setScale(0.335)
-
-    // hat2 = renderer.createEffect("fiskheroes:model");
-    // hat2.setModel(utils.createModel(renderer, "nin:hat_2", "hat"));
-    // hat2.setOffset(2.0, -11.4, -33.0);
-    // hat2.setRotation(0.0, 0.0, 0.0)
-    // hat2.anchor.set("rightArm");
-    // hat2.mirror = false
-    // hat2.opacity = 0.9;
-    // hat2.setScale(0.335)
-
-    // hat3 = renderer.createEffect("fiskheroes:model");
-    // hat3.setModel(utils.createModel(renderer, "nin:hat_2", "hat"));
-    // hat3.setOffset(60.0, -11.5, -35.0);
-    // hat3.setRotation(0.0, -15.0, 0.0)
-    // hat3.anchor.set("body");
-    // hat3.mirror = false
-    // hat3.opacity = 0.9;
-    // hat3.setScale(0.335)
-
-    // overlay = renderer.createEffect("fiskheroes:overlay");
-    // overlay.texture.set("nin:wu")
-
-    // spinjitzu = renderer.createEffect("fiskheroes:model");
-    // spinjitzu.setModel(utils.createModel(renderer, "nin:spinjitzu_zane", null, "spinjitzu"));
-    // spinjitzu.setOffset(1, 0, 1);
-    // spinjitzu.anchor.set("body");
-    // spinjitzu.mirror = false;
-    // spinjitzu.setScale(1.0)
-    // spinjitzu.opacity = 0.9;
 
     utils.bindBeam(renderer, "fiskheroes:energy_projection", "nin:invisible", "rightArm", 0xdb472b, [{
                 "firstPerson": [-4.5, 3.75, -8.0],
@@ -374,17 +212,23 @@ function initAnimations(renderer) {
 function render(entity, renderLayer, isFirstPersonArm) {
         if (entity.isWearingFullSuit() && !entity.isSneaking()) {
             samxsuit.anchor.ignoreAnchor(false);
+            samxsuit.setOffset(0, 1.75, 0)
             samxsuit.render();
-            // samxleftarm.render();
-            // samxrightarm.render();
-            // samxleftleg.render();
-            // samxrightleg.render();
-            // samxbody.render();
-            //pixal.render();
+            pixal.setOffset(0, 0, 0)
+            pixal.anchor.ignoreAnchor(false);
+            pixal.render();
         }
         if (entity.isWearingFullSuit() && entity.isSneaking()) {
             samxsuit.anchor.ignoreAnchor(true);
+            samxsuit.setOffset(0, 0.25, 0)
             samxsuit.render();
+            pixal.setOffset(0, 3.25, 0)
+            pixal.anchor.ignoreAnchor(true);
+            pixal.render();
+        }
+        if (isFirstPersonArm){
+            blueglass.anchor.ignoreAnchor(true);
+            blueglass.render();
         }
 
 }
