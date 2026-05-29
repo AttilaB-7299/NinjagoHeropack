@@ -1,24 +1,13 @@
-{hitanimationsamx_time}={data}
-{hitanimationsamx_0}=curve animate2({hitanimationsamx_time},0.75,0,0.15,0.6)
+{hit_time}={data}
+{hit_0}=curve animate2({hit_time},0.35,0,0.25,0.1)
+{hit_1}=curve animate2({hit_time},0.25,0.25,0.1,0.15)
+{hit_2}=curve animate2({hit_time},0.65,0.35,0.15,0.5)
 
-{R_arm_rotX}+=127.5'{hitanimationsamx_0}
-
-; {lower_time}={data}
-; {lower_0}=curve animate2({lower_time},20,0,1,19)
-
-; {bone4_rotX}-=12.5'{lower_0}
-; {bone4_posY}-=3{lower_0}
-; {bone4_posZ}-=0.3{lower_0}
-
-; {bone3_rotX}-=12.5'{lower_0}
-; {bone3_posY}-=3{lower_0}
-
-; {bone2_posY}-=3{lower_0}
-; {bone2_posZ}-=-1{lower_0}
-
-; {blocking_time}={data}
-; {blocking_0}=curve animate2({blocking_time},15,0,1,14)
-
-; {R_arm_rotX}-=57.2021907428'{blocking_0}
-; {R_arm_rotY}-=-45.0507463659'{blocking_0}
-; {R_arm_rotZ}-=24.5160382863'{blocking_0}
+{R_arm_rotX}+=77.5'{hit_0}
+{R_arm_rotZ}+=-20'{hit_0}
+{R_arm_rotX}+=84.6534'{hit_1}
+{R_arm_rotY}+=-13.6907'{hit_1}
+{R_arm_rotZ}+=-5.1413'{hit_1}
+{R_arm_rotX}+=54.7487'{hit_2}
+{R_arm_rotY}+=-32.2893'{hit_2}
+{R_arm_rotZ}+=20.7044'{hit_2}

@@ -26,7 +26,7 @@
 ; {L_Arm_rotX}+=35'{walk_nostop_2}
 
 ;30 should be over the animation limit and reset the position
-{a} = {limbSwing}/6
+{a} = {limbSwing}/10
 {b} = {limbSwingAmount}
 {c} = 0.3
 {2pi} = 2*pi
