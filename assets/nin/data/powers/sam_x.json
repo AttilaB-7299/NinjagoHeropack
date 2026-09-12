@@ -1,5 +1,5 @@
 {
-    "name": "Master Wu",
+    "name": "Samurai X",
     "modifiers": {
       "fiskheroes:super_speed": {
         "canUseTreadmill": false
@@ -8,6 +8,26 @@
         "soundEvents": {
             "ENABLE": "nin:flute"
           }
+      },
+      "fiskheroes:controlled_flight": {
+        "speed": 0.1,
+        "boostSpeed": 0.25,
+        "canBoost": true,
+        "collision": {
+          "blocks": {
+            "stopFlying": false,
+            "takeDamage": false
+          },
+          "entities": {
+            "stopFlying": false,
+            "dealDamage": false
+          }
+        },
+        "knockback": 0.4,
+        "soundEvents": {
+          "ENABLE": ["fiskheroes:flight_loop", "fiskheroes:flight_cape_loop"],
+          "BOOST": "fiskheroes:flight_boost"
+        }
       },
       "fiskheroes:transformation": {
       "key": "DRAGON",
@@ -67,26 +87,6 @@
             "BEAM_AMBIENT": "nin:spinjitzu_loop"
         }
       },
-      "fiskheroes:controlled_flight": {
-        "speed": 0.1,
-        "boostSpeed": 0.25,
-        "canBoost": true,
-        "collision": {
-          "blocks": {
-            "stopFlying": false,
-            "takeDamage": false
-          },
-          "entities": {
-            "stopFlying": false,
-            "dealDamage": false
-          }
-        },
-        "knockback": 0.4,
-        "soundEvents": {
-          "ENABLE": ["fiskheroes:flight_loop", "fiskheroes:flight_cape_loop"],
-          "BOOST": "fiskheroes:flight_boost"
-        }
-      },
       "fiskheroes:flame_blast": {
         "damageProfile": {
             "damage": 5.0,
@@ -142,7 +142,7 @@
         }
       }
     },
-  
+
     "hud": [{
         "type": "CIRCLE",
         "color": "0xFFE942",
@@ -159,4 +159,3 @@
       }
     ]
   }
-  

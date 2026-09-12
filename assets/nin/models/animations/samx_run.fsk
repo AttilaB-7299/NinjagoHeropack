@@ -1,37 +1,10 @@
-; {a} = {limbSwing}/8
-; {b} = {limbSwingAmount}
-; {c} = 0.2
-; {2pi} = 2*pi
-; {func} = ((cos({a}*{2pi})/2) * {b}) + {c}
-; {walk_nostop_time} = if ({data_0}, {func}, 0.75)
-
-; {walk_nostop_0}=curve animate2({walk_nostop_time},0.5,0,0,0.5)
-; {walk_nostop_1}=curve animate2({walk_nostop_time},1,0,0.5,0.5)
-; {walk_nostop_2}=curve animate2({walk_nostop_time},9.5,0.5,0.5,9)
-
-; {R_Leg_rotX}+=30'{walk_nostop_0}
-; {R_Leg_rotX}+=-30'{walk_nostop_1}
-; {R_Leg_rotX}+=30'{walk_nostop_2}
-
-; {L_leg_rotX}+=-30'{walk_nostop_0}
-; {L_leg_rotX}+=30'{walk_nostop_1}
-; {L_leg_rotX}+=-30'{walk_nostop_2}
-
-; {R_arm_rotX}+=-35'{walk_nostop_0}
-; {R_arm_rotX}+=35'{walk_nostop_1}
-; {R_arm_rotX}+=-35'{walk_nostop_2}
-
-; {L_Arm_rotX}+=35'{walk_nostop_0}
-; {L_Arm_rotX}+=-35'{walk_nostop_1}
-; {L_Arm_rotX}+=35'{walk_nostop_2}
-
 ;30 should be over the animation limit and reset the position
 {a} = {limbSwing}/10
 {b} = {limbSwingAmount}
 {c} = 0.3
 {2pi} = 2*pi
 {func} = ((cos({a}*{2pi})/2) * {b}) + {c}
-{walk_advanced_time} = if ({data_1}, if ({data}, {func}, 30), 30)
+{walk_advanced_time} = if ({data_2}, if ({data_1}, if ({data}, {func}, 30), 30), 30)
 
 {walk_advanced_0}=curve animate2({walk_advanced_time},0.47,0.03,0.28,0.19)
 {walk_advanced_1}=curve animate2({walk_advanced_time},0.48,0.5,0.35,0.13)

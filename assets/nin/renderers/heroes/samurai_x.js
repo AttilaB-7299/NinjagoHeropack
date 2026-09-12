@@ -64,10 +64,23 @@ function initEffects(renderer) {
     samxbodymodel.bindAnimation("nin:samxwalk").setData((entity, data) => {
         data.load(0, entity.getData("fiskheroes:moving"));
         data.load(1, !entity.isSprinting());
+        data.load(2, !entity.getData("fiskheroes:flying"));
     });
     samxbodymodel.bindAnimation("nin:samx_run").setData((entity, data) => {
         data.load(0, entity.getData("fiskheroes:moving"));
-        data.load(1, entity.isSprinting());
+        data.load(1, entity.isSprinting() && !entity.getData("fiskheroes:speeding"));
+        data.load(2, !entity.getData("fiskheroes:flying"));
+    });
+    samxbodymodel.bindAnimation("nin:samx_speed").setData((entity, data) => {
+        data.load(0, entity.getData("fiskheroes:speeding") && entity.isSprinting());
+    });
+    samxbodymodel.bindAnimation("nin:flight/samx-idle").setData((entity, data) => {
+        data.load(0, entity.getData("fiskheroes:flying"));
+        data.load(1, entity.getInterpolatedData("fiskheroes:flight_boost_timer"));
+    });
+    samxbodymodel.bindAnimation("nin:flight/samx-boosting").setData((entity, data) => {
+        data.load(0, entity.getInterpolatedData("fiskheroes:flight_timer"));
+        data.load(1, entity.getInterpolatedData("fiskheroes:flight_boost_timer"));
     });
 
     samxsuit = renderer.createEffect("fiskheroes:model").setModel(samxbodymodel);
@@ -127,7 +140,7 @@ function render(entity, renderLayer, isFirstPersonArm) {
     }
     if (!isFirstPersonArm){
         if (!entity.isSneaking()){
-            pixal.anchor.ignoreAnchor(false);
+            pixal.anchor.ignoreAnchor(true);
             samxsuit.anchor.ignoreAnchor(false);
             samxsuit.setOffset(0, 1.75, 0)
         }
