@@ -6,7 +6,7 @@ function spin(entity) {
 }
 function init(hero) {
 
-    hero.setName("Zane/Ninjago");
+    hero.setName("Zane/\u00A7b\u00A7lMaster of Ice\u00A7r/Ninjago");
     hero.setVersion("SOG");
     hero.setTier(6);
 

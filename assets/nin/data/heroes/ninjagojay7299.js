@@ -39,18 +39,17 @@ function init(hero) {
     hero.addKeyBind("CHARGE_ENERGY", "Lightning Throw", 2);
     hero.addKeyBind("BLADE", "Nunchucks Of Lightning", 3);
     hero.addKeyBindFunc("Func_GOD_MODE", godmodekey, "God Of Lightning", 4)
-    // hero.addKeyBind("GOD_MODE", "God Of Lightning", 4)
 
     //powerset2 = 2
     hero.addKeyBind("SUPER_SPEED", "Super speed", 1);
-    hero.addKeyBind("SHIELD", "Airjitzu", 2);
-    hero.addKeyBind("ENERGY_PROJECTION", "Spinjitzu", 3);
+    hero.addKeyBindFunc("SPINJITZU_HOLD", spinjitzuhold, "Spinjitzu", 3)
+    // hero.addKeyBind("ENERGY_PROJECTION", "Spinjitzu", 3);
     hero.addKeyBind("SLOW_MOTION", "Ninja Senses", 4);
-    
+
     //powerset3 = 3
     hero.addKeyBind("INTANGIBILITY", "Phase Shift", 3);
-    hero.addKeyBind("LIGHTNING_PULSE", "Lightning Burst", 4);
-    hero.addKeyBind("LIGHTNING_PULSE_HOLD", "Lightning Burst", 4);
+    hero.addKeyBindFunc("LIGHTNING_PULSE", lightningpulsepress,"Lightning Burst", 4);
+    hero.addKeyBindFunc("LIGHTNING_PULSE_HOLD", lightningpulsehold, "Lightning Burst", 4);
 
     hero.setHasProperty(hasProperty);
     hero.setModifierEnabled(isModifierEnabled);
@@ -75,34 +74,47 @@ function init(hero) {
     });
     hero.setTickHandler((entity, manager) => {
         utils.flightOnIntangibility(entity, manager);
-
-        //lightningPulse(hero, entity, manager);
-
         manager.incrementData(entity, "nin:dyn/blade", 8, entity.getData("fiskheroes:blade_timer"));
         // godtimer = entity.getData("nin:dyn/god_timer")
         // if (entity.getData("nin:dyn/goded")) {
         //     manager.setData(entity, "nin:god_timer", godtimer + 1)
         // }
 
-        if (!entity.getData("fiskheroes:shield") || entity.getData("nin:dyn/goded") || entity.isOnGround()) {
-            manager.setData(entity, "nin:dyn/aired", false);
-        };
+        // if (!entity.getData("fiskheroes:shield") || entity.getData("nin:dyn/goded") || entity.isOnGround()) {
+        //     manager.setData(entity, "nin:dyn/aired", false);
+        // };
         //manager.incrementData(entity, "nin:dyn/airjitzu_timer", entity.getData("fiskheroes:shield_timer"));
-        if (entity.isOnGround()) {
-            manager.setData(entity, "fiskheroes:shield", false);
-        };
-        if (entity.getData("fiskheroes:shield") && !entity.getData("nin:dyn/goded")) {
-            manager.setData(entity, "nin:dyn/aired", true);
-        };
-        if (entity.getData("fiskheroes:energy_projection")) {
-            manager.setData(entity, "nin:dyn/spinning", true);
-        } else {
-            manager.setData(entity, "nin:dyn/spinning", false);
-        };
-        /*if (entity.getData("nin:dyn/aired")) {
-            manager.setData(entity, "fiskheroes:flight", true);
-        };*/lightningPulse(hero, entity, manager);
-            spinjitzuAttack(hero, entity, manager);
+        // if (entity.isOnGround()) {
+        //     manager.setData(entity, "fiskheroes:shield", false);
+        // };
+        // if (entity.getData("fiskheroes:shield") && !entity.getData("nin:dyn/goded")) {
+        //     manager.setData(entity, "nin:dyn/aired", true);
+        // };
+        // if (entity.getData("nin:dyn/lightning_pulse") == true){
+        //     var lightningtime = entity.getData("nin:dyn/lightning_pulse_timer");
+        //     manager.setData(entity, "nin:dyn/lightning_pulse_timer", lightningtime + 0.1)
+        // }
+        if (entity.getData("nin:dyn/lightning_pulse_timer") >= 2){
+            manager.setData(entity, "nin:dyn/lightning_pulse_timer", 0)
+            manager.setData(entity, "nin:dyn/lightning_pulse", false)
+        }
+        if (entity.getData("nin:dyn/spinning") == true){
+            manager.setData(entity, "fiskheroes:energy_projection", true)
+        }
+        if (entity.getData("nin:dyn/spinning") == false){
+            manager.setData(entity, "fiskheroes:energy_projection", false)
+        }
+        // if (entity.getData("fiskheroes:energy_projection")) {
+        //     manager.setData(entity, "nin:dyn/spinning", true);
+        // } else {
+        //     manager.setData(entity, "nin:dyn/spinning", false);
+        // };
+        // if (entity.getData("nin:dyn/spin-timer") >= 10){
+        //     manager.setData(entity, "nin:dyn/spin_timer", 0)
+        //     manager.setData(entity, "nin:dyn/spinning", false)
+        // }
+        lightningPulse(hero, entity, manager);
+        spinjitzuAttack(hero, entity, manager);
     });
 }
 function spinjitzuAttack(hero, entity, manager) {
@@ -115,6 +127,12 @@ function spinjitzuAttack(hero, entity, manager) {
             }
         }
     }
+    // manager.incrementData(entity, "nin:dyn/spin_timer", 30, entity.getData("nin:dyn/spin_timer") == 1, false);
+
+    // if (entity.getData("nin:dyn/spin_timer") == 1 || !entity.getData("nin:dyn/spinning")) {
+    //     manager.setInterpolatedData(entity, "nin:dyn/lightning_pulse_shooting_timer", 0);
+    //     manager.setDataWithNotify(entity, "nin:dyn/lightning_pulse", false);
+    // }
 }
 function lightningPulse(hero, entity, manager) {
     if (entity.getData("nin:dyn/lightning_pulse_timer") == 1) {
@@ -126,7 +144,6 @@ function lightningPulse(hero, entity, manager) {
             }
         }
     }
-
     manager.incrementData(entity, "nin:dyn/lightning_pulse_shooting_timer", 30, entity.getData("nin:dyn/lightning_pulse_timer") == 1, false);
 
     if (entity.getData("nin:dyn/lightning_pulse_shooting_timer") == 1 || !entity.getData("nin:dyn/lightning_pulse")) {
@@ -146,73 +163,46 @@ function getProfile(entity) {
         return "SNEAK";
     }
 }
-
 function sneakProfile(profile) {
     profile.inheritDefaults();
     profile.addAttribute("BASE_SPEED", 0.5, 1);
 }
 function isModifierEnabled(entity, modifier) {
-    var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();
-    var transformation = entity.getData("fiskheroes:dyn/steeled");
-        switch(modifier.name()) {
-            case "fiskheroes:metal_skin":
-                return transformation;
-            default:
-                return true;
-        }
-    }
-function isModifierEnabled(entity, modifier) {
-    // var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
-    var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
-    var pitch = entity.rotPitch();
-    var syaw = entity.getData("nin:dyn/startedyaw");
-    var yaw = entity.rotYaw();
-    var trans = entity.getData("nin:dyn/airjitzu_timer") == 1;
     var god = entity.getData("nin:dyn/goded");
     var leap = entity.getData("fiskheroes:energy_projection")
     var allow = IsCreator(entity)
+    var never = false;
+    var yes = true;
     switch (modifier.name()) {
-    // case "fiskheroes:lightning_cast":
-    //     return allow && entity.getData("fiskheroes:energy_charge") == 0 && !entity.getData("fiskheroes:energy_projection");
-    case "fiskheroes:energy_projection":
-        switch (modifier.id()) {
-            case "straight":
-                return modifier.id() == "straight" == (Math.random() > 0.5);
-            case "backwards":
-                return modifier.id() == "backwards" == (Math.random() < 0.5);
-        };
-        return true;
-    case "fiskheroes:cooldown":
-        switch (modifier.id()) {
-            case "god":
-                return !trans;
-        }
-    /*case "fiskheroes:transformation":
-        switch (modifier.id()) {
-            case "god":
-                return !trans;
-            case "air":
-                return !entity.isOnGround();
-            };*/
-    case "fiskheroes:controlled_flight":
-        return god || allow && entity.isInWater();
-    case "fiskheroes:flight":
-        return trans;
-    case "fiskheroes:leaping":
-        return leap;
-    case "fiskheroes:charged_beam":
-        switch (modifier.id()) {
-            case "normal":
-                return !(entity.getData("nin:dyn/lightning_pulse_timer") == 1);
-            /*case "storm":
-                return (entity.getData("nin:dyn/lightning_pulse_timer") == 1);*/
-        };
+        case "fiskheroes:energy_projection":
+            switch (modifier.id()) {
+                case "straight":
+                    return modifier.id() == "straight" == (Math.random() > 0.5);
+                case "backwards":
+                    return modifier.id() == "backwards" == (Math.random() < 0.5);
+            };
+            return true;
+        case "fiskheroes:cooldown":
+            switch (modifier.id()) {
+                case "god":
+                    return yes;
+            }
+        case "fiskheroes:controlled_flight":
+            return god || allow && entity.isInWater();
+        case "fiskheroes:flight":
+            return never;
+        case "fiskheroes:leaping":
+            return leap;
+        case "fiskheroes:charged_beam":
+            switch (modifier.id()) {
+                case "normal":
+                    return entity.getData("nin:dyn/lightning_pulse_timer") != 1;
+            };
         return true;
     default:
         return true;
@@ -227,23 +217,23 @@ function isKeyBindEnabled(entity, keyBind) {
     if (keyBind == "LIGHTNING_PULSE_HOLD") {
         return !(entity.getData("fiskheroes:flying") && entity.isSprinting()) && entity.getData("nin:dyn/lightning_pulse_hold") && !(entity.getData("nin:dyn/lightning_pulse_timer") == 0 || entity.getData("nin:dyn/lightning_pulse"));
     }*/
+   var allow = IsCreator(entity)
+   //(entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd")
     var god = entity.getData("nin:dyn/goded");
     switch (keyBind) {
         //powerset 1
         case "CHARGED_BEAM":
-            return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");       
+            return (entity.getData("nin:dyn/powerset") == 1) && allow;
         case "BLADE":
-            return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
+            return (entity.getData("nin:dyn/powerset") == 1) && allow;
         case "CHARGE_ENERGY":
-            return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
-        case "GOD_MODE":
-            return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
+            return (entity.getData("nin:dyn/powerset") == 1) && allow;
         case "Func_GOD_MODE":
-            return (entity.getData("nin:dyn/powerset") == 1) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
+            return (entity.getData("nin:dyn/powerset") == 1) && allow;
     //powerset 2
         case "SLOW_MOTION":
             return (entity.getData("nin:dyn/powerset") == 2) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
-        case "ENERGY_PROJECTION":
+        case "SPINJITZU_HOLD":
             return (entity.getData("nin:dyn/powerset") == 2) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
         case "SHIELD":
             return (entity.getData("nin:dyn/powerset") == 2) && (!entity.isOnGround()) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
@@ -251,35 +241,35 @@ function isKeyBindEnabled(entity, keyBind) {
             return (entity.getData("nin:dyn/powerset") == 2) && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd");
     //powerset 3
         case "LIGHTNING_PULSE":
-            return (entity.getData("nin:dyn/powerset") == 3) && !entity.getData("nin:dyn/lightning_pulse_hold") && (entity.getData("nin:dyn/lightning_pulse_timer") == 0  && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd") || (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd") && entity.getData("nin:dyn/lightning_pulse"));
+            return (entity.getData("nin:dyn/powerset") == 3) && !entity.getData("nin:dyn/lightning_pulse_hold") && (entity.getData("nin:dyn/lightning_pulse_timer") == 0  && allow|| allow && entity.getData("nin:dyn/lightning_pulse"));
         case "LIGHTNING_PULSE_HOLD":
-            return (entity.getData("nin:dyn/powerset") == 3) && entity.getData("nin:dyn/lightning_pulse_hold") && !(entity.getData("nin:dyn/lightning_pulse_timer") == 0 && (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd") || (entity.getUUID() == "f8859e84-66ba-40f7-9e83-8d46bc6abcdd") && entity.getData("nin:dyn/lightning_pulse"));
+            return (entity.getData("nin:dyn/powerset") == 3) && entity.getData("nin:dyn/lightning_pulse_hold") && !(entity.getData("nin:dyn/lightning_pulse_timer") == 0 && allow || allow && entity.getData("nin:dyn/lightning_pulse"));
         case "INTANGIBILITY":
             return (entity.getData("nin:dyn/powerset") == 3) && god;
-            //powerset cases
-    case "Func_POWERSET_NEXT":
-        return !entity.isSneaking();
-    case "Func_POWERSET_PREV":
+    //powerset cases
+        case "Func_POWERSET_NEXT":
+            return !entity.isSneaking();
+        case "Func_POWERSET_PREV":
                 return entity.isSneaking();
-        case "TENTACLES":   
-            if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' ||
+        // case "TENTACLES":
+        //     if (entity.world().getBlock(entity.pos().add(0, YDif, 0.5)) == 'minecraft:air'
+        //         && entity.world().getBlock(entity.pos().add(0, YDif, -0.5)) == 'minecraft:air'
+        //         && entity.world().getBlock(entity.pos().add(0.5, YDif, 0)) == 'minecraft:air'
+        //         && entity.world().getBlock(entity.pos().add(-0.5, YDif, 0)) == 'minecraft:air' ||
 
-                entity.world().getBlock(entity.pos().add(0, YDif+0, 0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0, YDif+0, -0.5)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(0.5, YDif+0, 0)) == 'minecraft:air'
-                && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air' 
+        //         entity.world().getBlock(entity.pos().add(0, YDif+0, 0.5)) == 'minecraft:air'
+        //         && entity.world().getBlock(entity.pos().add(0, YDif+0, -0.5)) == 'minecraft:air'
+        //         && entity.world().getBlock(entity.pos().add(0.5, YDif+0, 0)) == 'minecraft:air'
+        //         && entity.world().getBlock(entity.pos().add(-0.5, YDif+0, 0)) == 'minecraft:air'
 
 
-                || entity.isInWater() || pitch > 30/*|| entity.getData("nin:dyn/powerset") == 2*/) {
-                return (false)
-        }; 
+        //         || entity.isInWater() || pitch > 30/*|| entity.getData("nin:dyn/powerset") == 2*/) {
+        //         return (false)
+        // };
         default:
             return true;
         }
-    
+
 }
 
 function hasProperty(entity, property) {
@@ -315,13 +305,43 @@ function nextpowersetKey(player, manager) {
     return true;
 }
 function godmodekey(entity, manager) {
-    if (entity.getData("nin:dyn/god_timer") < 1) {
-      manager.setData(entity, "nin:dyn/god_timer", 1);
-      manager.setData(entity, "nin:dyn/goded", true);
+    var opposite = !entity.getData("nin:dyn/goded")
+    manager.setData(entity, "nin:dyn/goded", opposite)
+    // if (entity.getData("nin:dyn/goded") == false) {
+    // //   manager.setData(entity, "nin:dyn/god_timer", 1);
+    //   manager.setData(entity, "nin:dyn/goded", true);
+    // }
+    // if (entity.getData("nin:dyn/goded") == true) {
+    // //   manager.setData(entity, "nin:dyn/god_timer", 0);
+    //   manager.setData(entity, "nin:dyn/goded", false);
+    // }
+    return true;
+}
+function lightningpulsepress(entity, manager) {
+    manager.setData(entity, "nin:dyn/lightning_pulse", true);
+    return true;
+}
+function lightningpulsehold(entity, manager) {
+    if (entity.getData("nin:dyn/lightning_pulse") == true){
+        var lightningtime = entity.getData("nin:dyn/lightning_pulse_timer");
+        manager.setData(entity, "nin:dyn/lightning_pulse", false)
+        manager.setData(entity, "nin:dyn/lightning_pulse_timer", lightningtime + 0.1)
     }
-    if (entity.getData("nin:dyn/god_timer") >= 1) {
-      manager.setData(entity, "nin:dyn/god_timer", 0);
-      manager.setData(entity, "nin:dyn/goded", false);
-    }
+    return true;
+}
+
+function spinjitzukey(entity, manager) {
+    manager.setData(entity, "nin:dyn/spinjitzukey", true);
+    return true;
+}
+function spinjitzuhold(entity, manager) {
+    manager.setData(entity, "nin:dyn/spinning", true)
+    // if (entity.getData("nin:dyn/spinjitzukey") == true){
+    //     var spintime = "nin:dyn/spin_timer";
+    //     manager.setData(entity, "nin:dyn/spinjitzukey", false)
+    //     manager.setData(entity, "nin:dyn/spin_timer", spintime + 0.1)
+    // }
+    var spintime = entity.getData("nin:dyn/spin_timer");
+    manager.setData(entity, "nin:dyn/spin_timer", spintime + 0.1)
     return true;
 }

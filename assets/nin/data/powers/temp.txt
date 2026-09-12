@@ -1,0 +1,13 @@
+,
+    "fiskheroes:transformation|spin": {
+          "key": "SPINJITZU",
+          "isToggle": false,
+          "transformation": {
+            "toggleData": "nin:dyn/spinjitzukey",
+            "timerData": "nin:dyn/spin_start_timer",
+            "time": 20
+          },
+          "soundEvents": {
+            "ENABLE": "fiskheroes:black_lightning_lightning_cast"
+          }
+      },

@@ -46,7 +46,7 @@
         "range": -2,
         "radius": 3.5,
         "soundEvents": {
-          "SHOOT": "nin:spinjitzu_start",
+          "SHOOT": "",
           "BEAM_AMBIENT": "nin:spinjitzu_loop"
         }
       },
@@ -168,7 +168,16 @@
         "ENABLE": ":"
       }
     },
-      "fiskheroes:transformation|pulse": {
+      "fiskheroes:transformation|spinning": {
+          "key": "SPINJITZU_HOLD",
+          "isToggle": false,
+          "transformation": {
+            "toggleData": "nin:dyn/spinning",
+            "timerData": "nin:dyn/spin_timer",
+            "time": 50
+          }
+      },
+    "fiskheroes:transformation|pulse": {
           "key": "LIGHTNING_PULSE",
           "isToggle": false,
           "transformation": {
@@ -200,8 +209,8 @@
       },
       "fiskheroes:cooldown|god": {
       "cooldown": {
-        "toggleData": "nin:dyn/goded",
-        "cooldownData": "nin:dyn/god_cooldown",
+        "toggleData": "nin:dyn/god_cooldown_toggle",
+        "cooldownData": "nin:dyn/god_timer",
         "duration": 200000000000,
         "recovery": 1.0
       }

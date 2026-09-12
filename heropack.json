@@ -92,6 +92,7 @@
         "goded": "BOOLEAN",
         "god_timer": "FLOAT_INTERP",
         "god_cooldown": "FLOAT",
+        "god_cooldown_toggle": "BOOLEAN",
 
         "aired": "BOOLEAN",
         "airjitzu_timer": "FLOAT_INTERP",

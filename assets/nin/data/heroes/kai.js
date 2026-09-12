@@ -1,6 +1,6 @@
 function init(hero) {
 
-    hero.setName("Kai/Ninjago");
+    hero.setName("Kai/\u00A7c\u00A7lMaster of Fire\u00A7r");
     hero.setTier(6);
 
     hero.setHelmet("Mask");

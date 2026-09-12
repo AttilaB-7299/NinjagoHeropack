@@ -1,5 +1,5 @@
 function init(hero) {
-    hero.setName("Kai/Ninjago").setVersion("SOG").setTier(6);
+    hero.setName("Kai/\u00A7c\u00A7lMaster of Fire\u00A7r").setVersion("SOG").setTier(6);
 
     hero.setHelmet("Mask").setChestplate("Chestplate").setLeggings("Leggings").setBoots("Shoes");
 
@@ -108,7 +108,7 @@ function sneakProfile(profile) {
 function isModifierEnabled(entity, modifier) {
     var trans = entity.getData("fiskheroes:dyn/steel_timer") == 1;
     var leap = entity.getData("fiskheroes:energy_projection");
-    var YDif = Math.round(entity.posY()) - entity.posY(); 
+    var YDif = Math.round(entity.posY()) - entity.posY();
     var pitch = entity.rotPitch();
     var syaw = entity.getData("nin:dyn/startedyaw");
     var yaw = entity.rotYaw();

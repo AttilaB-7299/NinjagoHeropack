@@ -1,6 +1,6 @@
 function init(hero) {
 
-    hero.setName("Cole/Ninjago");
+    hero.setName("Cole/\u00A76\u00A7lMaster of Earth\u00A7r");
     hero.setVersion("SOG");
 
     hero.setTier(6);
