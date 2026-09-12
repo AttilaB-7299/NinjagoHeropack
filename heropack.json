@@ -161,7 +161,6 @@
       "alts": {
         "nin:jay": {
           "tornament": "Tornament Of Elements",
-          "jungle": "Tornament Of Elements (Jungle)",
           "pilot": "Pilot Season 1"
         },
         "nin:zane": {
@@ -175,6 +174,12 @@
         },
         "nin:kai": {
           "pilot": "Pilot Season 1"
+        },
+        "nin:jay_tournament": {
+          "jungle": "Tornament Of Elements (Jungle)"
+        },
+        "nin:cole_tournament": {
+          "jungle": "Tornament Of Elements (Jungle)"
         },
         "nin:kai_tournament": {
           "jungle": "Tornament Of Elements (Jungle)"
