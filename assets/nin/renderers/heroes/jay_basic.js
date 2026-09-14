@@ -11,6 +11,7 @@ loadTextures({
     "airjitzu":"nin:jay/airjitzujay",
     "nunchuck_pose": "nin:jay/nunchuck_pose",
     "nunchuck_normal_back": "nin:jay/nunchucks_normal",
+    "technoblade": "nin:jay/technoblade-jay-off"
 });
 var airjitzu;
 var nunhand;
@@ -18,8 +19,14 @@ var spinjitzu;
 var nunchuck;
 var overlay;
 var utils = implement("fiskheroes:external/utils");
+function hasDefault(entity){
+    return true
+}
 function isGolden(entity) {
     return false;
+}
+function hasTechnoblade(entity){
+    return false
 }
 function invis(entity) {
     return (entity.getData("fiskheroes:energy_projection"));
@@ -47,12 +54,8 @@ function init(renderer) {
         if (fly(entity)) {
             return "null";
         }
-        /*if (nunchuckenabled(entity) && entity.isSprinting()) {
-            return "null";
-        }*/
         return "layer1";
     });
-    //renderer.setLights((entity, renderLayer) => renderLayer == "CHESTPLATE" ? "lights" : null);
 
     renderer.showModel("CHESTPLATE", "head", "headwear", "body", "rightArm", "leftArm", "rightLeg", "leftLeg");
     renderer.fixHatLayer("HELMET", "CHESTPLATE");
@@ -155,7 +158,7 @@ function initEffects(renderer) {
         nol_right.setRotation(90, 90.0, 56.0)
         nol_right.setScale(0.65)
 		nol_right.anchor.set("rightArm");
-        
+
         nunchuck_pose = renderer.createEffect("fiskheroes:model");
         nunchuck_pose.setModel(utils.createModel(renderer, "nin:nunchuck_pose", null, "nunchuck_pose"));
         nunchuck_pose.setOffset(5, -5, 2);
@@ -193,17 +196,17 @@ function initEffects(renderer) {
         ]);
         var lightningsurge_color = color;
         var lightningsurge_beam = renderer.createResource("BEAM_RENDERER", "nin:punch");
-    
+
         lightningsurgearms = utils.createLines(renderer, lightningsurge_beam, lightningsurge_color, [
             {"start": [1.3, -1.0, -1.1], "end": [-1.7, 6.5, -1.1], "size": [10.0, 10.0]},
             {"start": [-1.7, -1.0, -1.1], "end": [-0.3, 6.5, -1.1], "size": [10.0, 10.0]},
-              
+
             {"start": [1.3, -1.0, 1.1], "end": [-1.7, 6.5, 1.1], "size": [10.0, 10.0]},
             {"start": [-1.7, -1.0, 1.1], "end": [-0.3, 6.5, 1.1], "size": [10.0, 10.0]},
-              
+
             {"start": [-1.8, -1.0, 1.0], "end": [-1.8, 6.5, -1.0], "size": [10.0, 10.0]},
             {"start": [-1.8, -1.0, -1.0], "end": [-1.8, 6.5, 1.0], "size": [10.0, 10.0]},
-              
+
             {"start": [0.4, -1.0, 1.0], "end": [0.4, 6.5, -1.0], "size": [10.0, 10.0]},
             {"start": [0.4, -1.0, -1.0], "end": [0.4, 6.5, 1.0], "size": [10.0, 10.0]}
         ]);
@@ -211,20 +214,12 @@ function initEffects(renderer) {
         lightningsurgearms.setScale(1.5);
         lightningsurgearms.mirror = false;
 
-        /*nunlightning = utils.createLines(renderer, lightningsurge_beam, lightningsurge_color, [
-            {"start": [1.3, -1.0, -1.1], "end": [-1.7, 6.5, -1.1], "size": [10.0, 10.0]},
-            {"start": [-1.7, -1.0, -1.1], "end": [-0.3, 6.5, -1.1], "size": [10.0, 10.0]},
-        ]);    
-        nunlightning.anchor.set("rightArm", nol_right.getCubeOffset("cubeoffset"));
-        nunlightning.setScale(1.5);
-        nunlightning.mirror = false;*/
 
-        
-    var sprint = renderer.bindProperty("fiskheroes:trail");  
+    var sprint = renderer.bindProperty("fiskheroes:trail");
     sprint.setTrail(renderer.createResource("TRAIL", pull("spinjitzu")));
     sprint.setCondition(entity => (entity.getData("fiskheroes:energy_projection")));
 
-    utils.bindParticles(renderer, "nin:blue_hands").setCondition(entity => (entity.getInterpolatedData("fiskheroes:blade_timer") > 0 && entity.getInterpolatedData("fiskheroes:blade_timer") < 1));
+    // utils.bindParticles(renderer, "nin:blue_hands").setCondition(entity => (entity.getData("nin:dyn/technoblade_on")));
     renderer.bindProperty("fiskheroes:opacity").setOpacity((entity, renderLayer) => {
         return fly(entity) || invis(entity) ? 0.9 : 1
     });
@@ -238,108 +233,38 @@ function initEffects(renderer) {
     nunchuckhitting.setScale(0.75)
     nunchuckhitting.anchor.set("rightArm");
 
-    // chain = utils.createLines(renderer, "nin:lightning_cast", 0x0A92D8, [
-    //     {"start": [0.0, 0.0, 4.0], "end": [0.0, 0.0, 0.0], "size": [1.0, 1.0]},
-    // ]);
-	// chain.setOffset(0, 0.0, 0.0).setScale(1.0, 1.0, 1.0);
-	// chain.setAnchorCube(nunchuckhitting.getCubeOffset("nunchuck1"));
-
-	// chain1 = utils.createLines(renderer, "nin:lightning_cast", 0x0A92D8, [
-    //     {"start": [0.0, 0.0, 4.0], "end": [0.0, 0.0, 0.0], "size": [1.0, 1.0]},
-    // ]);
-	// chain1.setOffset(0, 0.0, 0.0).setScale(1.0, 1.0, 1.0);
-	// chain1.setAnchorCube(nunchuckhitting.getCubeOffset("nunchuck2"));
-}
-function getBlockInFront(entity) {
-    var pos = entity.pos();
-    var yaw = entity.rotBodyYaw() * Math.PI / 180;
-    var x = Math.round(Math.sin(yaw));
-    var z = Math.round(Math.cos(yaw));
-    return entity.world().getBlock(pos.x() + x, pos.y(), pos.z() + z);
-}
-function getBlockOnLeft(entity) {
-    var pos = entity.pos();
-    var yaw = (entity.rotBodyYaw() - 90) * Math.PI / 180;
-    var x = Math.round(Math.sin(yaw));
-    var z = Math.round(Math.cos(yaw));
-    return entity.world().getBlock(pos.x() + x, pos.y(), pos.z() + z);
-}
-function getBlockOnRight(entity) {
-    var pos = entity.pos();
-    var yaw = (entity.rotBodyYaw() + 90) * Math.PI / 180;
-    var x = Math.round(Math.sin(yaw));
-    var z = Math.round(Math.cos(yaw));
-    return entity.world().getBlock(pos.x() + x, pos.y(), pos.z() + z);
+    technobladeback = renderer.createEffect("fiskheroes:model");
+    technobladeback.setModel(utils.createModel(renderer, "nin:technoblade-jay", null, "technoblade"));
+    technobladeback.setOffset(0, 0, 0);
+    technobladeback.setRotation(0.0, 90.0, 0.0)
+    technobladeback.setScale(0.35)
+    technobladeback.anchor.set("body");
 }
 function initAnimations(renderer) {
     parent.initAnimations(renderer);
     renderer.removeCustomAnimation("basic.AIMING");
     renderer.removeCustomAnimation("basic.CHARGED_BEAM");
-    addAnimation(renderer, "WALL_HOLD_RIGHT", "nin:wall_hold_right")
-    .setData((entity, data) => {data.load(0, entity.getData("nin:dyn/climb_bool"))})
-    .setCondition(entity => (getBlockOnLeft(entity) != 'minecraft:air' && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air' && getBlockInFront(entity) == 'minecraft:air' && entity.getData("nin:dyn/climb_bool") && !entity.isOnGround()));
-
-    addAnimation(renderer, "WALL_RUN_RIGHT", "nin:wall_run_right")
-    .setData((entity, data) => {data.load(0, entity.loop(6))})
-    .setCondition(entity => (getBlockOnLeft(entity) != 'minecraft:air' && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air' && getBlockInFront(entity) == 'minecraft:air' && entity.getData("nin:dyn/climb_bool") && !entity.isOnGround() && entity.getData("fiskheroes:moving")));
-
-    addAnimation(renderer, "WALL_HOLD_LEFT", "nin:wall_hold_left")
-    .setData((entity, data) => {data.load(0, entity.getData("nin:dyn/climb_bool"))})
-    .setCondition(entity => (getBlockOnRight(entity) != 'minecraft:air' && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air' && getBlockInFront(entity) == 'minecraft:air' && entity.getData("nin:dyn/climb_bool") && !entity.isOnGround()));
-
-    addAnimation(renderer, "WALL_RUN_LEFT", "nin:wall_run_left")
-    .setData((entity, data) => {data.load(0, entity.loop(6))})
-    .setCondition(entity => (getBlockOnRight(entity) != 'minecraft:air' && entity.world().getBlock(entity.pos().add(0, -1, 0)) == 'minecraft:air' && getBlockInFront(entity) == 'minecraft:air' && entity.getData("nin:dyn/climb_bool") && !entity.isOnGround() && entity.getData("fiskheroes:moving")));
-
-    addAnimation(renderer, "WALL_JUMP_UP", "nin:wall_climb")
-    .setData((entity, data) => {data.load(0, entity.loop(6))})
-    .setCondition(entity => (getBlockInFront(entity) != 'minecraft:air') && entity.getData("nin:dyn/climb_bool") && entity.getData("fiskheroes:moving"));
-
-    addAnimation(renderer, "WALL_HOLD_STRAIGHT", "nin:wall_hold")
-    .setData((entity, data) => {data.load(0, entity.getData("nin:dyn/climb_bool"))})
-    .setCondition(entity => (getBlockInFront(entity) != 'minecraft:air') && entity.getData("nin:dyn/climb_bool"));
 
     utils.addHoverAnimation(renderer, "jay.HOVER", "nin:swim").setCondition(entity => (entity.isInWater()))
     addAnimationWithData(renderer, "basic.AIMING", "fiskheroes:dual_aiming", "fiskheroes:aiming_timer");
     addAnimationWithData(renderer, "ninja.SPRINT",  "fiskheroes:speedster_sprint", "fiskheroes:moving").setCondition(entity => (entity.isSprinting() && !invis(entity)));
     addAnimationWithData(renderer, "jay.CHARGEDBEAM", "fiskheroes:aiming", "fiskheroes:beam_charging").setCondition(entity => (entity.getData("fiskheroes:beam_charging")));
-    //addAnimation(renderer, "jay.NUNCHUCKS", "nin:nunchucks").setCondition(entity => (entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol"));
-    // addAnimation(renderer, "jay.NUNCHUCKS", "nin:nunchucks")
-    //     .setData((entity, data) => data.load(entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol" && !entity.getPunchTimerInterpolated()))
-    //     .setCondition(entity => (!entity.getData("fiskheroes:moving") && !entity.getInterpolatedData("fiskheroes:beam_charge")));
-    //addAnimationWithData(renderer, "jay.NUNCHUCKS", "nin:nun_right", "fiskheroes:blade").setCondition(entity => (entity.exists()));
-
-    /*addAnimationWithData(renderer, "jay.SPIN", "nin:spin").setData((entity, data) => {
-        data.load(entity.getData('fiskheroes:energy_projection_timer'));
-    });
-    addAnimationWithData(renderer, "jay.SPINFULL", "nin:spinjitzu").setData((entity, data) => {
-        data.load(entity.getData('fiskheroes:energy_projection_timer') && entity.loop(5) * 10);
-    });*/
  }
 function render(entity, renderLayer, isFirstPersonArm) {
     if (entity.isWearingFullSuit()) {
         overlay.render();
-    /*if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol" && !entity.isSprinting()) {
-        nol_right.render();
-    }
-    if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol" && entity.isSprinting()) {
-        nunchucks.render();
-    }*/
-    if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol" && !entity.getInterpolatedData("fiskheroes:beam_charge") && !entity.getData("fiskheroes:moving") && !entity.getPunchTimerInterpolated()) {
-        //bolt.render();
-    }
-    /*if (entity.getInterpolatedData("fiskheroes:beam_charge") && entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol") {
-        nunhand2.render()
-    }*/
     if (isGolden(entity)) {
         if (entity.getHeldItem().isEmpty() && !invis(entity) && !fly(entity)){
             nolback.render()
         }
     } else{
-        if (entity.getHeldItem().isEmpty() && !invis(entity) && !fly(entity)) {
+        if (entity.getHeldItem().isEmpty() && !invis(entity) && !fly(entity) && hasDefault(entity)) {
             nolback2.render()
         }
-    }   
+        if (entity.getHeldItem().isEmpty() && !invis(entity) && !fly(entity) && hasTechnoblade(entity)){
+            technobladeback.render()
+        }
+    }
     if (invis(entity)) {
         spinjitzu.setRotation(0, entity.loop(2) * 360, 0)
         spinjitzu.render();
@@ -350,30 +275,9 @@ function render(entity, renderLayer, isFirstPersonArm) {
     }
     if (renderLayer == "CHESTPLATE") {
         var punch_timer = entity.getInterpolatedData('fiskheroes:energy_charge');
-    
+
         lightningsurgearms.progress = punch_timer;
         lightningsurgearms.render();
     }
-    if (nunchuckenabled(entity) && (!entity.getData("fiskheroes:energy_projection")) && !entity.getInterpolatedData("fiskheroes:beam_charge") && !entity.getPunchTimerInterpolated() && !entity.getData("fiskheroes:moving")) {
-        // nunright.render();
-        // nunleft.render();
-        // nunchuck_pose.render();
-    }
-    if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol" && !entity.getInterpolatedData("fiskheroes:beam_charge") && !entity.getData("fiskheroes:energy_projection") && !entity.getData("fiskheroes:dyn/steel_timer") == 1) {
-        //nunhit.render();
-        // chain.progress = 1;
-	    // chain.render();
-	    // chain1.progress = 1;
-	    // chain1.render();
-        // nunchuckhitting.render();
-    }
-    if (entity.getHeldItem().nbt().getString("WeaponType") == "nin:nol" && entity.getData("fiskheroes:beam_charging")) {
-        // nunhit.setOffset(7.5, 32, -13.5);
-        // nunhit.setRotation(90.0, -90.0, -90.0)
-        // nunhit.render();
-    }
-    /*if (entity.isSprinting()) {
-        nunchuck_back.render();
-    }*/
     }
 }

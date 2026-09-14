@@ -1,7 +1,7 @@
 extend("nin:jay_basic");
 loadTextures({
-    "layer1": "nin:jay/s4-battle-jay",
-    "layer2": "nin:jay/s4-battle-jay",
+    "layer1": "nin:jay/s2-lotgn",
+    "layer2": "nin:jay/s2-lotgn",
     "mask": "nin:jay/ninjagojay_mask",
     "nunchuck": "nin:jay/nunchuck",
     "null": "nin:null",
@@ -14,5 +14,8 @@ function isGolden(entity) {
 }
 function init(renderer) {
     parent.init(renderer);
-    renderer.setItemIcons("jay/jay_tournament_0", "jay/jay_tournament_1", "jay/jay_tournament_2", "jay/jay_tournament_3");
+    renderer.setItemIcons("jay/jay_lotgn_0", "jay/jay_lotgn_1", "jay/jay_lotgn_2", "jay/jay_lotgn_3");
+}
+function isBasic(entity) {
+    return true;
 }

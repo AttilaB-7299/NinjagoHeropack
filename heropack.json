@@ -155,34 +155,32 @@
         "fall_immunity_active": "BOOLEAN",
 
         "is_default": "BOOLEAN",
-        "isnt_default": "BOOLEAN"
+        "isnt_default": "BOOLEAN",
+
+        "technoblade_on": "BOOLEAN"
 
       },
       "alts": {
         "nin:jay": {
-          "tornament": "Tornament Of Elements",
           "pilot": "Pilot Season 1"
         },
         "nin:zane": {
-          "jungle": "Tornament Of Elements",
           "pilot": "Pilot Season 1"
         },
         "nin:cole": {
-          "tornament": "Tornament Of Elements",
-          "jungle": "Tornament Of Elements (Jungle)",
           "pilot": "Pilot Season 1"
         },
         "nin:kai": {
           "pilot": "Pilot Season 1"
         },
         "nin:jay_tournament": {
-          "jungle": "Tornament Of Elements (Jungle)"
+          "jungle": "Tournament Of Elements (Jungle)"
         },
         "nin:cole_tournament": {
-          "jungle": "Tornament Of Elements (Jungle)"
+          "jungle": "Tournament Of Elements (Jungle)"
         },
         "nin:kai_tournament": {
-          "jungle": "Tornament Of Elements (Jungle)"
+          "jungle": "Tournament Of Elements (Jungle)"
         },
         "nin:kai_skybound": {
         },

@@ -1,0 +1,9 @@
+{
+  "name": "Lightning Technoblade",
+  "permission": "USE_TECHNOBLADE_JAY",
+  "holdingPose": "SINGLE",
+  "melee": {
+    "attackDamage": 12.0,
+    "knockback": 0.2
+  }
+}

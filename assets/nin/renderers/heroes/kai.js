@@ -202,7 +202,7 @@ function render(entity, renderLayer, isFirstPersonArm) {
                 katana_back.setRotation(0.0, 90.0, 145.0);
                 katana_back.render();
                 katana_back.setScale(0.5)
-            }  
+            }
         if (entity.getData("fiskheroes:blade")) {
             sword.render();
         }

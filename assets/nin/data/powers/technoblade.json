@@ -1,0 +1,29 @@
+{
+  "name": "Technoblade",
+  "modifiers": {
+    "fiskheroes:transformation|technoblade": {
+      "key": "BLADE_ON",
+      "transformation": {
+        "toggleData": "nin:dyn/technoblade_on",
+        "timerData": "fiskheroes:dyn/steel_timer",
+        "time": 8
+      }
+    },
+    "fiskheroes:cooldown|technoblade": {
+      "cooldown": {
+        "toggleData": "nin:dyn/technoblade_on",
+        "cooldownData": "fiskheroes:dyn/steel_cooldown",
+        "duration": 125,
+        "recovery": 1.0
+      }
+    }
+  },
+  "hud": [
+    {
+      "type": "CIRCLE",
+      "color": "0x0049FF",
+      "data": "nin:dyn/technoblade_on"
+    }
+
+  ]
+}

@@ -1,7 +1,7 @@
 function init(hero) {
 
     hero.setName("Jay/\u00A73\u00A7lMaster of Lightning\u00A7l\u00A73");
-    hero.setVersion("ZX");
+    hero.setVersion("Legacy Of The Green Ninja");
     hero.setTier(6);
 
     hero.setHelmet("Mask");
@@ -29,6 +29,7 @@ function init(hero) {
 
     //powerset2 = 2
     hero.addKeyBind("SUPER_SPEED", "Super speed", 1);
+    hero.addKeyBind("STEEL_TRANSFORM", "Airjitzu", 2);
     hero.addKeyBind("ENERGY_PROJECTION", "Spinjitzu", 3);
     hero.addKeyBind("SLOW_MOTION", "Ninja Senses", 4);
 
